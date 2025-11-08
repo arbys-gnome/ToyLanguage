@@ -19,8 +19,8 @@ public class Controller {
                 new ListOutput()
         );
 
-        while (!programState.executionStack().isEmpty()) {
-            Statement statement = programState.executionStack().pop();
+        while (!programState.isFinished()) {
+            Statement statement = programState.nextStatement();
             statement.execute(programState);
         }
 
