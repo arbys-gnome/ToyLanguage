@@ -31,8 +31,31 @@ public class Controller {
         IO.println(programState);
     }
 
-    public ProgramState oneStep(ProgramState state) {
-        // TODO: Implement
-        return state;
+    /**
+     * Executes a single step of the program.
+     * Retrieves the next statement from the execution stack,
+     * executes it, and logs the resulting program state.
+     */
+    public ProgramState oneStep(ProgramState state) throws Exception {
+        if (state.getExecutionStack().isEmpty()) {
+            throw new Exception("Program execution stack is empty.");
+        }
+
+        // Get the next statement from the stack
+        Statement currentStatement = state.nextStatement();
+
+        try {
+            // Execute the statement and update the program state
+            currentStatement.execute(state);
+
+            // Log the new state after execution
+            repository.logProgramState();
+
+            return state;
+        } catch (InvalidVariableNameException e) {
+            throw new Exception("Variable error during execution: " + e.getMessage());
+        } catch (Exception e) {
+            throw new Exception("Unexpected error during execution: " + e.getMessage());
+        }
     }
 }

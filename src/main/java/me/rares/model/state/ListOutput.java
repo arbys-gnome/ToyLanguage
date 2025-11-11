@@ -3,6 +3,7 @@ package me.rares.model.state;
 import me.rares.model.value.Value;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class ListOutput implements Output {
@@ -17,5 +18,10 @@ public class ListOutput implements Output {
         return "ListOut{" +
                 "values=" + values +
                 '}';
+    }
+
+    @Override
+    public Iterator<Value> iterator() {
+        return values.iterator();
     }
 }

@@ -4,6 +4,8 @@ import me.rares.model.exception.InvalidVariableNameException;
 import me.rares.model.type.Type;
 import me.rares.model.value.Value;
 
+import java.util.Map;
+
 public interface SymbolTable {
     void setValue(String variableName, Value value);
 
@@ -16,4 +18,6 @@ public interface SymbolTable {
     Value getValue(String variableName);
 
     Value lookup(String variableName) throws InvalidVariableNameException;
+
+    Iterable<Map.Entry<String, Value>> entrySet();
 }

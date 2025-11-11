@@ -5,7 +5,6 @@ import me.rares.examples.Examples;
 import me.rares.model.expression.*;
 import me.rares.model.state.*;
 import me.rares.model.statement.*;
-import me.rares.model.type.Type;
 import me.rares.model.value.*;
 import me.rares.repository.MemoryRepository;
 import me.rares.repository.Repository;

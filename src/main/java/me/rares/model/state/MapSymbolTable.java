@@ -50,4 +50,9 @@ public class MapSymbolTable implements  SymbolTable {
                 "symbolTable=" + symbolTable +
                 '}';
     }
+
+    @Override
+    public Iterable<Map.Entry<String, Value>> entrySet() {
+        return symbolTable.entrySet();
+    }
 }

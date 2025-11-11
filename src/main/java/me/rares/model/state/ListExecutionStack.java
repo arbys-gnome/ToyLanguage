@@ -2,6 +2,7 @@ package me.rares.model.state;
 
 import me.rares.model.statement.Statement;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -30,5 +31,9 @@ public class ListExecutionStack implements ExecutionStack {
             sb.append(statement.toString()).append("\n");
         }
         return sb.toString();
+    }
+    @Override
+    public Iterator<Statement> iterator() {
+        return statements.iterator();
     }
 }
