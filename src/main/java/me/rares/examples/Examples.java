@@ -70,12 +70,12 @@ public class Examples {
     );
 
     // Example 4:
-    // string varf; varf="test.in"; openRFile(varf);
+    // string varf; varf="/tmp/test.in"; openRFile(varf);
     // int varc; readFile(varf,varc); print(varc); closeRFile(varf)
     public static final Statement ex4 = new CompoundStatement(
             new VariableDeclarationStatement(Type.STRING, "varf"),
             new CompoundStatement(
-                    new AssignmentStatement("varf", new ValueExpression(new StringValue("test.in"))),
+                    new AssignmentStatement("varf", new ValueExpression(new StringValue("/tmp/test.in"))),
                     new CompoundStatement(
                             new OpenFileRead(new VariableExpression("varf")),
                             new CompoundStatement(

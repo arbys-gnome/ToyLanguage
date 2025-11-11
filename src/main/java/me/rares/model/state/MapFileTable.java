@@ -27,7 +27,7 @@ public class MapFileTable implements FileTable {
     }
 
     @Override
-    public BufferedReader lookup(StringValue filename) {
+    public BufferedReader lookup(StringValue filename) throws RuntimeException {
         if (!fileTable.containsKey(filename)) {
             throw new RuntimeException("FileTable: File '" + filename.value() + "' is not open");
         }

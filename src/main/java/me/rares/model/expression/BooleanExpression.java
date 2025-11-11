@@ -10,10 +10,10 @@ public record BooleanExpression(Expression left, String operator, Expression rig
         Value resultLeft = left.evaluate(symbolTable);
         Value resultRight = right.evaluate(symbolTable);
         if (!(resultLeft instanceof BooleanValue(boolean leftValue))){
-            throw new RuntimeException("ArithmeticExpression: left value is not a boolean value");
+            throw new RuntimeException("BooleanExpression: left value is not a boolean value");
         }
         if (!(resultRight instanceof BooleanValue(boolean rightValue))){
-            throw new RuntimeException("ArithmeticExpression: right value is not a boolean value");
+            throw new RuntimeException("BooleanExpression: right value is not a boolean value");
         }
         boolean result = getResult(leftValue, rightValue, operator);
         return new BooleanValue(result);
@@ -23,7 +23,7 @@ public record BooleanExpression(Expression left, String operator, Expression rig
         return switch (operator) {
             case "&&" -> leftValue && rightValue;
             case "||" -> leftValue || rightValue;
-            default -> throw new RuntimeException("ArithmeticExpression: invalid operator");
+            default -> throw new RuntimeException("BooleanExpression: invalid operator");
         };
     }
 }

@@ -63,7 +63,11 @@ public class CLI {
                 continue;
             }
 
-            cmd.execute();
+            try {
+                cmd.execute();
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
         }
     }
 }
