@@ -10,4 +10,9 @@ public record PrintStatement(Expression expression) implements Statement {
         state.getOutput().add(value);
         return state;
     }
+
+    @Override
+    public String toString() {
+        return "print(" + expression.toString() + ")";
+    }
 }

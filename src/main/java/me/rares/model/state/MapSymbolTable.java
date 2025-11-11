@@ -46,9 +46,16 @@ public class MapSymbolTable implements  SymbolTable {
 
     @Override
     public String toString() {
-        return "MapSymbolTable{" +
-                "symbolTable=" + symbolTable +
-                '}';
+        StringBuilder sb = new StringBuilder("MapSymbolTable:");
+        if (symbolTable.isEmpty()) {
+            return sb.append("\n(empty)").toString();
+        }
+
+        for (var entry : symbolTable.entrySet()) {
+            sb.append("\n").append(entry.getKey()).append(": ").append(entry.getValue());
+        }
+
+        return sb.toString();
     }
 
     @Override

@@ -7,4 +7,9 @@ public record BooleanValue(boolean value) implements Value {
     public Type getType() {
         return Type.BOOLEAN;
     }
+
+    @Override
+    public String toString() {
+        return String.valueOf(value);
+    }
 }

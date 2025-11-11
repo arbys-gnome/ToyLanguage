@@ -35,21 +35,22 @@ public class MemoryRepository implements Repository {
         try (PrintWriter logFile = new PrintWriter(new BufferedWriter(new FileWriter(logFilePath, true)))) {
 
             logFile.println("ExeStack:");
-            // Assuming your ExecutionStack supports iteration (top to bottom)
-            // or has a method to get elements as a List
             for (Statement stmt : state.getExecutionStack()) {
-                logFile.println(stmt.toString()); // Uses infix traversal representation
+                logFile.println(stmt.toString());
             }
+            logFile.println();
 
             logFile.println("SymTable:");
             for (Map.Entry<String, Value> entry : state.getSymbolTable().entrySet()) {
                 logFile.println(entry.getKey() + " --> " + entry.getValue());
             }
+            logFile.println();
 
             logFile.println("Out:");
             for (Object value : state.getOutput()) {
                 logFile.println(value);
             }
+            logFile.println();
 
             logFile.println("FileTable:");
             for (StringValue filename : state.getFileTable().getAllFilenames()) {

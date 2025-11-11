@@ -17,4 +17,12 @@ public enum Type {
             case STRING -> new StringValue("");
         };
     }
+
+    public String toString(){
+        return switch (this) {
+            case INTEGER -> "int";
+            case BOOLEAN -> "bool";
+            case STRING -> "str";
+        };
+    }
 }

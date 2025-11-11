@@ -64,13 +64,13 @@ public class MapFileTable implements FileTable {
 
     @Override
     public String toString() {
+        StringBuilder sb = new StringBuilder("MapFileTable:");
         if (fileTable.isEmpty()) {
-            return "(empty)";
+            return sb.append("\n(empty)").toString();
         }
 
-        StringBuilder sb = new StringBuilder();
         for (StringValue filename : fileTable.keySet()) {
-            sb.append(filename.value()).append("\n");
+            sb.append("\n").append(filename.value());
         }
         return sb.toString();
     }

@@ -33,4 +33,9 @@ public record ArithmeticExpression(Expression left, char operator, Expression ri
             default -> throw new RuntimeException("ArithmeticExpression: invalid operator");
         };
     }
+
+    @Override
+    public String toString() {
+        return left.toString() + " " + operator + " " + right.toString();
+    }
 }

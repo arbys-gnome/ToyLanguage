@@ -28,6 +28,6 @@ public record AssignmentStatement(String variableName, Expression expression) im
 
     @Override
     public String toString() {
-        return "Assignment(\n   var: " + variableName + "\n    expr: " + expression.toString() + "\n)";
+        return variableName + " = " + expression.toString();
     }
 }

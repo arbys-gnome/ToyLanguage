@@ -121,7 +121,6 @@ public class ProgramState {
     }
 
     // ============== GETTERS ==============
-
     public ExecutionStack getExecutionStack() {
         return executionStack;
     }
@@ -143,7 +142,6 @@ public class ProgramState {
     }
 
     // ============== SETTERS ==============
-
     public void setExecutionStack(ExecutionStack executionStack) {
         this.executionStack = executionStack;
     }
@@ -161,21 +159,16 @@ public class ProgramState {
     }
 
     // ============== TO STRING ==============
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("ExeStack:\n");
         sb.append(executionStack.toString()).append("\n");
 
-        sb.append("SymTable:\n");
         sb.append(symbolTable.toString()).append("\n");
 
-        sb.append("Out:\n");
         sb.append(output.toString()).append("\n");
 
-        sb.append("FileTable:\n");
         sb.append(fileTable.toString()).append("\n");
 
         return sb.toString();

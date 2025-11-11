@@ -7,4 +7,9 @@ public record StringValue(String value) implements Value {
     public Type getType() {
         return Type.STRING;
     }
+
+    @Override
+    public String toString() {
+        return "'" + String.valueOf(value) + "'";
+    }
 }

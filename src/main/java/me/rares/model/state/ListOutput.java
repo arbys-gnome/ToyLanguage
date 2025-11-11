@@ -15,9 +15,7 @@ public class ListOutput implements Output {
 
     @Override
     public String toString() {
-        return "ListOut{" +
-                "values=" + values +
-                '}';
+        return "ListOut = " + values;
     }
 
     @Override

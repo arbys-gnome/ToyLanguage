@@ -13,6 +13,6 @@ public record CompoundStatement(Statement first, Statement second) implements St
 
     @Override
     public String toString() {
-        return "CompoundStatement: " + first.toString() + " " + second.toString();
+        return first.toString() + "; " + second.toString();
     }
 }

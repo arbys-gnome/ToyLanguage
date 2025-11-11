@@ -26,12 +26,18 @@ public class ListExecutionStack implements ExecutionStack {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("ListExecutionStack:\n");
-        for (var statement : statements) {
-            sb.append(statement.toString()).append("\n");
+        StringBuilder sb = new StringBuilder("ListExecutionStack:");
+        if (isEmpty()) {
+            sb.append("\n(empty)");
         }
+
+        for (var statement : statements) {
+            sb.append("\n").append(statement.toString());
+        }
+
         return sb.toString();
     }
+
     @Override
     public Iterator<Statement> iterator() {
         return statements.iterator();

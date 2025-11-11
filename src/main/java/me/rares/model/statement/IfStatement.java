@@ -25,6 +25,6 @@ public record IfStatement(Expression condition, Statement thenStatement, Stateme
 
     @Override
     public String toString() {
-        return "IfStatement: condition=" + condition + ", thenStatement=" + thenStatement + ", elseStatement=" + elseStatement;
+        return "if(" + condition.toString() + ") {" + thenStatement.toString() + "} else {" + elseStatement.toString() + "}";
     }
 }
