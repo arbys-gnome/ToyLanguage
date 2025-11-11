@@ -1,5 +1,7 @@
 package me.rares.model.state;
 
+import me.rares.model.exception.InvalidTypeException;
+import me.rares.model.exception.InvalidVariableNameException;
 import me.rares.model.type.Type;
 import me.rares.model.value.Value;
 
@@ -31,6 +33,14 @@ public class MapSymbolTable implements  SymbolTable {
 
     @Override
     public Value getValue(String variableName) {
+        return symbolTable.get(variableName);
+    }
+
+    @Override
+    public Value lookup(String variableName) throws InvalidVariableNameException {
+        if (!symbolTable.containsKey(variableName)){
+            throw new InvalidVariableNameException("Variable " + variableName + " is not defined!");
+        }
         return symbolTable.get(variableName);
     }
 

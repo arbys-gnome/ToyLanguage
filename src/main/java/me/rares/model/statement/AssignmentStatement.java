@@ -8,7 +8,7 @@ public record AssignmentStatement(String variableName, Expression expression) im
 
     @Override
     public ProgramState execute(ProgramState state) {
-        SymbolTable symbolTable = state.symbolTable();
+        SymbolTable symbolTable = state.getSymbolTable();
         if (!symbolTable.isDefined(variableName)) {
             throw new RuntimeException();
         }
@@ -24,5 +24,10 @@ public record AssignmentStatement(String variableName, Expression expression) im
         symbolTable.setValue(variableName, value);
 
         return state;
+    }
+
+    @Override
+    public String toString() {
+        return "Assignment(\n   var: " + variableName + "\n    expr: " + expression.toString() + "\n)";
     }
 }

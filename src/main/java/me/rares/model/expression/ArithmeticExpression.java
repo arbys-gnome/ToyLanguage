@@ -6,6 +6,7 @@ import me.rares.model.value.IntegerValue;
 import me.rares.model.value.Value;
 
 public record ArithmeticExpression(Expression left, char operator, Expression right) implements Expression {
+
     @Override
     public Value evaluate(SymbolTable symbolTable) {
         Value resultLeft = left.evaluate(symbolTable);

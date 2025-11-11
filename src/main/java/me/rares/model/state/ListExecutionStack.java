@@ -25,8 +25,10 @@ public class ListExecutionStack implements ExecutionStack {
 
     @Override
     public String toString() {
-        return "ListExecutionStack{" +
-                "statements=" + statements +
-                '}';
+        StringBuilder sb = new StringBuilder("ListExecutionStack:\n");
+        for (var statement : statements) {
+            sb.append(statement.toString()).append("\n");
+        }
+        return sb.toString();
     }
 }

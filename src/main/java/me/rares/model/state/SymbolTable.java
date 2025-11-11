@@ -1,5 +1,6 @@
 package me.rares.model.state;
 
+import me.rares.model.exception.InvalidVariableNameException;
 import me.rares.model.type.Type;
 import me.rares.model.value.Value;
 
@@ -13,4 +14,6 @@ public interface SymbolTable {
     void declareVariable(Type type, String variableName);
 
     Value getValue(String variableName);
+
+    Value lookup(String variableName) throws InvalidVariableNameException;
 }

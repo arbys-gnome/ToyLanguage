@@ -6,31 +6,25 @@ import me.rares.model.type.Type;
 import me.rares.model.value.BooleanValue;
 import me.rares.model.value.Value;
 
-public class IfStatement  implements Statement {
-    private final Expression condition;
-    private final Statement thenStatement;
-    private final Statement elseStatement;
-
-    public IfStatement(Expression condition, Statement thenStatement, Statement elseStatement) {
-        this.condition = condition;
-        this.thenStatement = thenStatement;
-        this.elseStatement = elseStatement;
-    }
-
+public record IfStatement(Expression condition, Statement thenStatement, Statement elseStatement) implements Statement {
     @Override
     public ProgramState execute(ProgramState state) {
-        Value value = condition.evaluate(state.symbolTable());
-        if(value.getType() != Type.BOOLEAN) {
+        Value value = condition.evaluate(state.getSymbolTable());
+        if (value.getType() != Type.BOOLEAN) {
             throw new RuntimeException();
         }
 
         var booleanValue = (BooleanValue) value;
-        if(booleanValue.value()) {
-            state.executionStack().push(thenStatement);
-        }
-        else {
-            state.executionStack().push(elseStatement);
+        if (booleanValue.value()) {
+            state.getExecutionStack().push(thenStatement);
+        } else {
+            state.getExecutionStack().push(elseStatement);
         }
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return "IfStatement: condition=" + condition + ", thenStatement=" + thenStatement + ", elseStatement=" + elseStatement;
     }
 }
