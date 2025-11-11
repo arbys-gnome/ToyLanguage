@@ -18,7 +18,7 @@ public enum Type {
         };
     }
 
-    public String toString(){
+    public String toString() {
         return switch (this) {
             case INTEGER -> "int";
             case BOOLEAN -> "bool";

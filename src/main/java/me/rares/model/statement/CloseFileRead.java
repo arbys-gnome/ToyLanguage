@@ -15,19 +15,12 @@ import java.io.IOException;
  * Closes an open file and removes it from the FileTable
  */
 public class CloseFileRead implements Statement {
-    private Expression expression;
+    private final Expression expression;
 
     public CloseFileRead(Expression expression) {
         this.expression = expression;
     }
 
-    /**
-     * Execution steps:
-     * 1. Evaluate the expression to get filename (must be string)
-     * 2. Get the BufferedReader from FileTable
-     * 3. Close the BufferedReader
-     * 4. Remove the entry from FileTable
-     */
     @Override
     public ProgramState execute(ProgramState state) {
         // Evaluate the expression
@@ -46,7 +39,6 @@ public class CloseFileRead implements Statement {
             throw new RuntimeException("CloseFileRead: File '" + filename + "' is not open");
         }
 
-        // Get BufferedReader from FileTable
         BufferedReader reader = state.getFileTable().lookup(stringValue);
 
         try {

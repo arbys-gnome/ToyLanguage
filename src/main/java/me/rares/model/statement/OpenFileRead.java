@@ -22,14 +22,6 @@ public class OpenFileRead implements Statement {
         this.expression = expression;
     }
 
-    /**
-     * Execution steps:
-     * 1. Evaluate the expression
-     * 2. Check if it's a StringValue
-     * 3. Check if the file is not already open (not in FileTable)
-     * 4. Open the file using BufferedReader
-     * 5. Add entry to FileTable
-     */
     @Override
     public ProgramState execute(ProgramState state) {
         // Evaluate the expression

@@ -24,20 +24,20 @@ public class Main {
 
         // Create state and controller for example 1
         Repository repo1 = new MemoryRepository(program1, "/tmp/log1.txt");
-        Controller ctr1 = new Controller(repo1);
+        Controller ctr1 = new Controller(repo1, false);
 
 
         ProgramState program2 = ProgramState.builder().program(Examples.ex2).build();
         Repository repo2 = new MemoryRepository(program2, "/tmp/log2.txt");
-        Controller ctr2 = new Controller(repo2);
+        Controller ctr2 = new Controller(repo2, false);
 
         ProgramState program3 = ProgramState.builder().program(Examples.ex3).build();
         Repository repo3 = new MemoryRepository(program3, "/tmp/log3.txt");
-        Controller ctr3 = new Controller(repo3);
+        Controller ctr3 = new Controller(repo3, false);
 
         ProgramState program4 = ProgramState.builder().program(Examples.ex4).build();
         Repository repo4 = new MemoryRepository(program4, "/tmp/log4.txt");
-        Controller ctr4 = new Controller(repo4);
+        Controller ctr4 = new Controller(repo4, false);
 
         // Create the text menu
         CLI menu = new CLI();

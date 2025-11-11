@@ -2,9 +2,6 @@ package me.rares.view;
 
 import me.rares.controller.Controller;
 
-/**
- * Command to run a specific program example through the controller
- */
 public class RunExample extends Command {
     private Controller controller;
 
@@ -19,10 +16,6 @@ public class RunExample extends Command {
         this.controller = controller;
     }
 
-    /**
-     * Executes the program by calling the controller's execute() method.
-     * Catches and handles any exceptions that occur during execution.
-     */
     @Override
     public void execute() {
         try {

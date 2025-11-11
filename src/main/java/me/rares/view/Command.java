@@ -1,9 +1,5 @@
 package me.rares.view;
 
-/**
- * Abstract base class for menu commands.
- * Each command has a key (for menu selection) and a description.
- */
 public abstract class Command {
     private final String key;
     private final String description;
@@ -18,9 +14,6 @@ public abstract class Command {
         this.description = description;
     }
 
-    /**
-     * Execute the command - to be implemented by subclasses
-     */
     public abstract void execute();
 
     /**

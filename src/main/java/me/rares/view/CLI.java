@@ -4,17 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
-/**
- * Text-based menu interface for the interpreter.
- * Displays available commands and allows user to select and execute them.
- * This class is called TextMenu in the assignment but named CLI for clarity.
- */
 public class CLI {
     private Map<String, Command> commands;
 
-    /**
-     * Constructor - initializes the command map
-     */
     public CLI() {
         commands = new HashMap<>();
     }

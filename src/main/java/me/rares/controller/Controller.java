@@ -9,10 +9,12 @@ import me.rares.model.statement.Statement;
 import me.rares.repository.Repository;
 
 public class Controller {
-    private Repository repository;
+    private final Repository repository;
+    private boolean displaFlag = false;
 
-    public Controller(Repository repo) {
+    public Controller(Repository repo, boolean displayFlag) {
         repository = repo;
+        displaFlag = displayFlag;
     }
 
     // complete execution
@@ -20,6 +22,17 @@ public class Controller {
         var programState = repository.getCurrentProgramState();
 
         while (!programState.isFinished()) {
+            if (displaFlag) {
+                IO.println(programState);
+            }
+
+            // Log the new state after each step
+            try {
+                repository.logProgramState();
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            }
+
             Statement statement = programState.nextStatement();
             try {
                 statement.execute(programState);
@@ -48,8 +61,12 @@ public class Controller {
             // Execute the statement and update the program state
             currentStatement.execute(state);
 
-            // Log the new state after execution
-            repository.logProgramState();
+            // Log the new state after each step
+            try {
+                repository.logProgramState();
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            }
 
             return state;
         } catch (InvalidVariableNameException e) {

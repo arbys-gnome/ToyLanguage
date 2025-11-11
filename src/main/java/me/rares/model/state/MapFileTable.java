@@ -7,16 +7,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Implementation of FileTable using a HashMap.
- * Wraps Java's HashMap to provide file table functionality.
- */
 public class MapFileTable implements FileTable {
     private Map<StringValue, BufferedReader> fileTable;
 
-    /**
-     * Constructor - initializes an empty file table
-     */
     public MapFileTable() {
         this.fileTable = new HashMap<>();
     }

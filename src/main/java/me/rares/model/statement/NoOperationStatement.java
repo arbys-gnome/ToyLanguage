@@ -10,6 +10,6 @@ public class NoOperationStatement implements Statement {
 
     @Override
     public String toString() {
-        return "NoOperationStatement{}";
+        return "NoOp";
     }
 }
