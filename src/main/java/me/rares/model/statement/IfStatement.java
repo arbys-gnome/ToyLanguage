@@ -3,7 +3,7 @@ package me.rares.model.statement;
 import me.rares.model.expression.Expression;
 import me.rares.model.state.ProgramState;
 import me.rares.model.type.Type;
-import me.rares.model.value.BooleanValue;
+import me.rares.model.value.BoolValue;
 import me.rares.model.value.Value;
 
 public record IfStatement(Expression condition, Statement thenStatement, Statement elseStatement) implements Statement {
@@ -14,7 +14,7 @@ public record IfStatement(Expression condition, Statement thenStatement, Stateme
             throw new RuntimeException();
         }
 
-        var booleanValue = (BooleanValue) value;
+        var booleanValue = (BoolValue) value;
         if (booleanValue.value()) {
             state.getExecutionStack().push(thenStatement);
         } else {

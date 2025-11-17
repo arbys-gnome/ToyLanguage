@@ -5,8 +5,8 @@ import me.rares.model.expression.ValueExpression;
 import me.rares.model.expression.VariableExpression;
 import me.rares.model.statement.*;
 import me.rares.model.type.Type;
-import me.rares.model.value.BooleanValue;
-import me.rares.model.value.IntegerValue;
+import me.rares.model.value.BoolValue;
+import me.rares.model.value.IntValue;
 import me.rares.model.value.StringValue;
 
 public class Examples {
@@ -14,7 +14,7 @@ public class Examples {
     public static final Statement ex1 = new CompoundStatement(
             new VariableDeclarationStatement(Type.INTEGER, "v"),
             new CompoundStatement(
-                    new AssignmentStatement("v", new ValueExpression(new IntegerValue(2))),
+                    new AssignmentStatement("v", new ValueExpression(new IntValue(2))),
                     new PrintStatement(new VariableExpression("v"))
             )
     );
@@ -27,12 +27,12 @@ public class Examples {
                     new CompoundStatement(
                             new AssignmentStatement("a",
                                     new ArithmeticExpression(
-                                            new ValueExpression(new IntegerValue(2)),
+                                            new ValueExpression(new IntValue(2)),
                                             '+',
                                             new ArithmeticExpression(
-                                                    new ValueExpression(new IntegerValue(3)),
+                                                    new ValueExpression(new IntValue(3)),
                                                     '*',
-                                                    new ValueExpression(new IntegerValue(5))
+                                                    new ValueExpression(new IntValue(5))
                                             )
                                     )
                             ),
@@ -41,7 +41,7 @@ public class Examples {
                                             new ArithmeticExpression(
                                                     new VariableExpression("a"),
                                                     '+',
-                                                    new ValueExpression(new IntegerValue(1))
+                                                    new ValueExpression(new IntValue(1))
                                             )
                                     ),
                                     new PrintStatement(new VariableExpression("b"))
@@ -56,12 +56,12 @@ public class Examples {
             new CompoundStatement(
                     new VariableDeclarationStatement(Type.INTEGER, "v"),
                     new CompoundStatement(
-                            new AssignmentStatement("a", new ValueExpression(new BooleanValue(true))),
+                            new AssignmentStatement("a", new ValueExpression(new BoolValue(true))),
                             new CompoundStatement(
                                     new IfStatement(
                                             new VariableExpression("a"),
-                                            new AssignmentStatement("v", new ValueExpression(new IntegerValue(2))),
-                                            new AssignmentStatement("v", new ValueExpression(new IntegerValue(3)))
+                                            new AssignmentStatement("v", new ValueExpression(new IntValue(2))),
+                                            new AssignmentStatement("v", new ValueExpression(new IntValue(3)))
                                     ),
                                     new PrintStatement(new VariableExpression("v"))
                             )

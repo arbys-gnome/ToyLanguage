@@ -22,7 +22,6 @@ public class Main {
                                     .program(Examples.ex1)
                                     .build();
 
-        // Create state and controller for example 1
         Repository repo1 = new MemoryRepository(program1, "/tmp/log1.txt");
         Controller ctr1 = new Controller(repo1, false);
 
@@ -42,7 +41,6 @@ public class Main {
         // Create the text menu
         CLI menu = new CLI();
 
-        // Add commands to the menu
         menu.addCommand(new ExitCommand("0", "Exit"));
         menu.addCommand(new RunExample("1", Examples.ex1.toString(), ctr1));
         menu.addCommand(new RunExample("2", Examples.ex2.toString(), ctr2));

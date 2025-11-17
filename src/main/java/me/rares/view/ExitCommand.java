@@ -1,8 +1,5 @@
 package me.rares.view;
 
-/**
- * Command to exit the application
- */
 public class ExitCommand extends Command {
 
     /**
@@ -14,9 +11,6 @@ public class ExitCommand extends Command {
         super(key, description);
     }
 
-    /**
-     * Exits the application with status code 0
-     */
     @Override
     public void execute() {
         System.out.println("Exiting application...");

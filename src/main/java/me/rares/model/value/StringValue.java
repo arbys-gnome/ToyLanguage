@@ -1,11 +1,16 @@
 package me.rares.model.value;
 
 import me.rares.model.type.Type;
+import me.rares.model.type.StringType;
 
-public record StringValue(String value) implements Value {
+public class StringValue implements Value {
+    private final String value;
+
+    public StringValue(String value) { this.value = value; }
+
     @Override
-    public Type getType() {
-        return Type.STRING;
+    public Type type() {
+        return new StringType();
     }
 
     @Override

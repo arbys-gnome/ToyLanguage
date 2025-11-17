@@ -5,7 +5,7 @@ import me.rares.model.exception.InvalidVariableNameException;
 import me.rares.model.expression.Expression;
 import me.rares.model.state.ProgramState;
 import me.rares.model.type.Type;
-import me.rares.model.value.IntegerValue;
+import me.rares.model.value.IntValue;
 import me.rares.model.value.StringValue;
 import me.rares.model.value.Value;
 
@@ -68,15 +68,15 @@ public class ReadFile implements Statement {
             // Read a line from the file
             String line = reader.readLine();
 
-            IntegerValue intValue;
+            IntValue intValue;
             if (line == null) {
                 // End of file - use default value 0
-                intValue = new IntegerValue(0);
+                intValue = new IntValue(0);
             } else {
                 // Parse the line as an integer
                 try {
                     int parsedValue = Integer.parseInt(line.trim());
-                    intValue = new IntegerValue(parsedValue);
+                    intValue = new IntValue(parsedValue);
                 } catch (NumberFormatException e) {
                     throw new RuntimeException("ReadFile: Line '" + line + "' is not a valid integer", e);
                 }
