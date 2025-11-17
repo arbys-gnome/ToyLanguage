@@ -14,6 +14,11 @@ public class StringValue implements Value {
     }
 
     @Override
+    public Object value() {
+        return value;
+    }
+
+    @Override
     public String toString() {
         return "'" + String.valueOf(value) + "'";
     }

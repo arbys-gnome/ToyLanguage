@@ -12,5 +12,8 @@ public class IntValue implements Value {
     public Type type() { return new IntType(); }
 
     @Override
+    public Object value() { return value; }
+
+    @Override
     public String toString() { return String.valueOf(value); }
 }

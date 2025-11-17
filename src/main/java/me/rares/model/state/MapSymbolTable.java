@@ -23,12 +23,12 @@ public class MapSymbolTable implements  SymbolTable {
 
     @Override
     public Type getType(String variableName) {
-        return getValue(variableName).getType();
+        return getValue(variableName).type();
     }
 
     @Override
     public void declareVariable(Type type, String variableName) {
-        symbolTable.put(variableName, type.getDefaultValue());
+        symbolTable.put(variableName, type.defaultValue());
     }
 
     @Override

@@ -12,10 +12,13 @@ public class RefValue implements Value {
         this.locationType = location;
     }
 
-    public int address() { return address; }
+    public int address() { return (int)this.value(); }
 
     @Override
     public Type type() { return new RefType(locationType); }
+
+    @Override
+    public Object value() { return address; }
 
     @Override
     public boolean equals(Object another) {

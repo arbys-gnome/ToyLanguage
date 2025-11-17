@@ -12,5 +12,8 @@ public class BoolValue implements Value {
     public Type type() { return new BoolType(); }
 
     @Override
+    public Object value() { return value; }
+
+    @Override
     public String toString() { return String.valueOf(value); }
 }
