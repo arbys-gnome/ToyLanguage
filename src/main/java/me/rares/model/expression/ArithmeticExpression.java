@@ -2,6 +2,8 @@ package me.rares.model.expression;
 
 import me.rares.model.exception.InvalidTypeException;
 import me.rares.model.state.SymbolTable;
+import me.rares.model.type.Type;
+import me.rares.model.value.BoolValue;
 import me.rares.model.value.IntValue;
 import me.rares.model.value.Value;
 
@@ -12,13 +14,16 @@ public record ArithmeticExpression(Expression left, char operator, Expression ri
         Value resultLeft = left.evaluate(symbolTable);
         Value resultRight = right.evaluate(symbolTable);
 
-        if (!(resultLeft instanceof IntValue(int leftValue))) {
+        if (!(resultLeft.type().equals(Type.INT))) {
             throw new InvalidTypeException("ArithmeticExpression: left value is not an integer");
         }
 
-        if (!(resultRight instanceof IntValue(int rightValue))) {
+        if (!(resultRight.type().equals(Type.INT))) {
             throw new InvalidTypeException("ArithmeticExpression: right value is not an integer");
         }
+
+        int leftValue = ((IntValue)resultLeft).value();
+        int rightValue = ((IntValue)resultLeft).value();
 
         int result = getResult(leftValue, rightValue, operator);
         return new IntValue(result);

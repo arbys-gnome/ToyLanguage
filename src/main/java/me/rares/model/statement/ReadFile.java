@@ -42,14 +42,14 @@ public class ReadFile implements Statement {
         }
 
         Value varValue = state.getSymbolTable().lookup(variableName);
-        if (!varValue.getType().equals(Type.INTEGER)) {
+        if (!varValue.type().equals(Type.INT)) {
             throw new InvalidTypeException("ReadFile: Variable '" + variableName + "' must be of int type");
         }
 
         // Evaluate expression to get filename
         Value value = expression.evaluate(state.getSymbolTable());
 
-        if (!value.getType().equals(Type.STRING)) {
+        if (!value.type().equals(Type.STRING)) {
             throw new InvalidTypeException("ReadFile: Expression must evaluate to a string type");
         }
 

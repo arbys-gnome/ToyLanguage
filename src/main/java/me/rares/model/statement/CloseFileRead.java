@@ -27,7 +27,7 @@ public class CloseFileRead implements Statement {
         Value value = expression.evaluate(state.getSymbolTable());
 
         // Check if the value is a StringValue
-        if (!value.getType().equals(Type.STRING)) {
+        if (!value.type().equals(Type.STRING)) {
             throw new InvalidTypeException("CloseFileRead: Expression must evaluate to a string type");
         }
 

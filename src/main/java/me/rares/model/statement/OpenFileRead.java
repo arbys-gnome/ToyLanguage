@@ -28,7 +28,7 @@ public class OpenFileRead implements Statement {
         Value value = expression.evaluate(state.getSymbolTable());
 
         // Check if the value is a StringValue
-        if (!value.getType().equals(Type.STRING)) {
+        if (!(value.type().equals(Type.STRING))) {
             throw new InvalidTypeException("OpenFileRead: Expression must evaluate to a string type");
         }
 

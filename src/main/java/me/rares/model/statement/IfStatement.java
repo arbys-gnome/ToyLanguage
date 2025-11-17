@@ -10,7 +10,7 @@ public record IfStatement(Expression condition, Statement thenStatement, Stateme
     @Override
     public ProgramState execute(ProgramState state) {
         Value value = condition.evaluate(state.getSymbolTable());
-        if (value.getType() != Type.BOOLEAN) {
+        if (!value.type().equals(Type.BOOL)) {
             throw new RuntimeException();
         }
 

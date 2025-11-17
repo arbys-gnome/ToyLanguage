@@ -1,6 +1,5 @@
 package me.rares.model.value;
 
-import me.rares.model.type.IntType;
 import me.rares.model.type.Type;
 
 public class IntValue implements Value {
@@ -9,10 +8,10 @@ public class IntValue implements Value {
     public IntValue(int value) { this.value = value; }
 
     @Override
-    public Type type() { return new IntType(); }
+    public Type type() { return Type.INT; }
 
     @Override
-    public Object value() { return value; }
+    public Integer value() { return value; }
 
     @Override
     public String toString() { return String.valueOf(value); }

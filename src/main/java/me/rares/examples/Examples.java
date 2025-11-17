@@ -12,7 +12,7 @@ import me.rares.model.value.StringValue;
 public class Examples {
     // Example 1: int v; v=2; Print(v)
     public static final Statement ex1 = new CompoundStatement(
-            new VariableDeclarationStatement(Type.INTEGER, "v"),
+            new VariableDeclarationStatement(Type.INT, "v"),
             new CompoundStatement(
                     new AssignmentStatement("v", new ValueExpression(new IntValue(2))),
                     new PrintStatement(new VariableExpression("v"))
@@ -21,9 +21,9 @@ public class Examples {
 
     // Example 2: int a; int b; a=2+3*5; b=a+1; Print(b)
     public static final Statement ex2 = new CompoundStatement(
-            new VariableDeclarationStatement(Type.INTEGER, "a"),
+            new VariableDeclarationStatement(Type.INT, "a"),
             new CompoundStatement(
-                    new VariableDeclarationStatement(Type.INTEGER, "b"),
+                    new VariableDeclarationStatement(Type.INT, "b"),
                     new CompoundStatement(
                             new AssignmentStatement("a",
                                     new ArithmeticExpression(
@@ -52,9 +52,9 @@ public class Examples {
 
     // Example 3: bool a; int v; a=true; If a Then v=2 Else v=3; Print(v)
     public static final Statement ex3 = new CompoundStatement(
-            new VariableDeclarationStatement(Type.BOOLEAN, "a"),
+            new VariableDeclarationStatement(Type.BOOL, "a"),
             new CompoundStatement(
-                    new VariableDeclarationStatement(Type.INTEGER, "v"),
+                    new VariableDeclarationStatement(Type.INT, "v"),
                     new CompoundStatement(
                             new AssignmentStatement("a", new ValueExpression(new BoolValue(true))),
                             new CompoundStatement(
@@ -79,7 +79,7 @@ public class Examples {
                     new CompoundStatement(
                             new OpenFileRead(new VariableExpression("varf")),
                             new CompoundStatement(
-                                    new VariableDeclarationStatement(Type.INTEGER, "varc"),
+                                    new VariableDeclarationStatement(Type.INT, "varc"),
                                     new CompoundStatement(
                                             new ReadFile(new VariableExpression("varf"), "varc"),
                                             new CompoundStatement(

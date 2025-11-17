@@ -18,7 +18,7 @@ public class RefValue implements Value {
     public Type type() { return new RefType(locationType); }
 
     @Override
-    public Object value() { return address; }
+    public Integer value() { return address; }
 
     @Override
     public boolean equals(Object another) {

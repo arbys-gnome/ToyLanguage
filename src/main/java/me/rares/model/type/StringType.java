@@ -3,7 +3,9 @@ package me.rares.model.type;
 import me.rares.model.value.StringValue;
 import me.rares.model.value.Value;
 
-public class StringType implements Type {
+class StringType implements Type {
+    StringType() {}
+
     @Override
     public Value defaultValue() { return new StringValue(""); }
 

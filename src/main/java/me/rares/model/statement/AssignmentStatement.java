@@ -17,7 +17,7 @@ public record AssignmentStatement(String variableName, Expression expression) im
 
         var value = expression.evaluate(symbolTable);
         var variableType = symbolTable.getType(variableName);
-        var valueType = value.getType();
+        var valueType = value.type();
 
         if (valueType != variableType) {
             throw new InvalidTypeException(valueType + " is not assignable to " + variableName + " of type " + variableType);

@@ -3,7 +3,9 @@ package me.rares.model.type;
 import me.rares.model.value.IntValue;
 import me.rares.model.value.Value;
 
-public class IntType implements Type {
+final class IntType implements Type {
+    IntType() {}
+
     @Override
     public Value defaultValue() { return new IntValue(0); }
 

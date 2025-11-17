@@ -3,7 +3,9 @@ package me.rares.model.type;
 import me.rares.model.value.BoolValue;
 import me.rares.model.value.Value;
 
-public class BoolType implements Type {
+final class BoolType implements Type {
+    BoolType() {}
+
     @Override
     public Value defaultValue() { return new BoolValue(false); }
 

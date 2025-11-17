@@ -1,7 +1,6 @@
 package me.rares.model.value;
 
 import me.rares.model.type.Type;
-import me.rares.model.type.StringType;
 
 public class StringValue implements Value {
     private final String value;
@@ -9,12 +8,10 @@ public class StringValue implements Value {
     public StringValue(String value) { this.value = value; }
 
     @Override
-    public Type type() {
-        return new StringType();
-    }
+    public Type type() { return Type.STRING; }
 
     @Override
-    public Object value() {
+    public String value() {
         return value;
     }
 
