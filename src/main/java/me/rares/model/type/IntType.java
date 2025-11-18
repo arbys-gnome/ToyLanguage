@@ -14,4 +14,7 @@ final class IntType implements Type {
 
     @Override
     public boolean equals(Object another) { return another instanceof IntType; }
+
+    @Override
+    public boolean isReference() { return false; }
 }

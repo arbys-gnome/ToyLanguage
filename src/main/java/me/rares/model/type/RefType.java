@@ -23,4 +23,7 @@ public class RefType implements Type {
             return inner.equals(((RefType)another).innerType());
         else return false;
     }
+
+    @Override
+    public boolean isReference() { return true; }
 }

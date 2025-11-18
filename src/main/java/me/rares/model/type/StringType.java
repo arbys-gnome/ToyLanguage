@@ -14,4 +14,7 @@ class StringType implements Type {
 
     @Override
     public boolean equals(Object another) { return  another instanceof StringType; }
+
+    @Override
+    public boolean isReference() { return false; }
 }

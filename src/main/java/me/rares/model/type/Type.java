@@ -12,4 +12,6 @@ public interface Type {
     String toString();
 
     boolean equals(Object other);
+
+    boolean isReference();
 }

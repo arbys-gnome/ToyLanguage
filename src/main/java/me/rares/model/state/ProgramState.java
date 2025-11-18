@@ -112,6 +112,10 @@ public class ProgramState {
         return symbolTable;
     }
 
+    public Heap getHeap() {
+        return heap;
+    }
+
     public Output getOutput() {
         return output;
     }
