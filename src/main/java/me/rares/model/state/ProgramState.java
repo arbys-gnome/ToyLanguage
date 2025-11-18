@@ -9,54 +9,40 @@ import me.rares.model.statement.Statement;
 public class ProgramState {
     private ExecutionStack executionStack;
     private SymbolTable symbolTable;
-    private Output output;
     private FileTable fileTable;
-    private Statement program;
+    private Heap heap;
+    private Output output;
+    private final Statement program;
 
-    /**
-     * Full constructor - use when you want to provide all components
-     */
     public ProgramState(ExecutionStack executionStack,
                         SymbolTable symbolTable,
-                        Output output,
                         FileTable fileTable,
-                        Statement program) {
+                        Heap heap,
+                        Statement program,
+                        Output output
+    ) {
         this.executionStack = executionStack;
         this.symbolTable = symbolTable;
-        this.output = output;
         this.fileTable = fileTable;
+        this.heap = heap;
         this.program = deepCopy(program);
+        this.output = output;
 
-        // Push the original program onto the execution stack
+        // Push the program onto the execution stack
         this.executionStack.push(program);
     }
 
-    /**
-     * Factory method - creates ProgramState with multiple custom components.
-     * Any component can be null, and will be created as empty.
-     *
-     * Usage:
-     *   ProgramState state = ProgramState.builder()
-     *       .executionStack(myStack)  // optional
-     *       .symbolTable(mySymTable)  // optional
-     *       .output(myOutput)         // optional
-     *       .fileTable(myFileTable)   // optional
-     *       .program(myProgram)       // required
-     *       .build();
-     */
     public static Builder builder() {
         return new Builder();
     }
 
-    /**
-     * Builder class for flexible ProgramState creation
-     */
     public static class Builder {
         private ExecutionStack executionStack;
         private SymbolTable symbolTable;
-        private Output output;
         private FileTable fileTable;
+        Heap heap;
         private Statement program;
+        private Output output;
 
         public Builder executionStack(ExecutionStack executionStack) {
             this.executionStack = executionStack;
@@ -78,6 +64,11 @@ public class ProgramState {
             return this;
         }
 
+        public Builder heap(Heap heap) {
+            this.heap = heap;
+            return this;
+        }
+
         public Builder program(Statement program) {
             this.program = program;
             return this;
@@ -91,31 +82,23 @@ public class ProgramState {
             return new ProgramState(
                     executionStack != null ? executionStack : new ListExecutionStack(),
                     symbolTable != null ? symbolTable : new MapSymbolTable(),
-                    output != null ? output : new ListOutput(),
                     fileTable != null ? fileTable : new MapFileTable(),
-                    program
+                    heap != null ? heap : new MapHeap(),
+                    program,
+                    output != null ? output : new ListOutput()
             );
         }
     }
 
-    /**
-     * Deep copy the original program (optional implementation)
-     */
     private Statement deepCopy(Statement stmt) {
         // For now, statements are treated as immutable
         return stmt;
     }
 
-    /**
-     * Check if program execution is finished
-     */
     public boolean isFinished() {
         return executionStack.isEmpty();
     }
 
-    /**
-     * Get and remove the next statement from the execution stack
-     */
     public Statement nextStatement() {
         return executionStack.pop();
     }
@@ -167,9 +150,11 @@ public class ProgramState {
 
         sb.append(symbolTable.toString()).append("\n");
 
-        sb.append(output.toString()).append("\n");
-
         sb.append(fileTable.toString()).append("\n");
+
+        sb.append(heap.toString()).append("\n");
+
+        sb.append(output.toString()).append("\n");
 
         return sb.toString();
     }
