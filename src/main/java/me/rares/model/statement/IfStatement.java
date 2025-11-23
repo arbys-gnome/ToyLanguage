@@ -9,7 +9,7 @@ import me.rares.model.value.Value;
 public record IfStatement(Expression condition, Statement thenStatement, Statement elseStatement) implements Statement {
     @Override
     public ProgramState execute(ProgramState state) {
-        Value value = condition.evaluate(state.getSymbolTable());
+        Value value = condition.evaluate(state.getSymbolTable(), state.getHeap());
         if (!value.type().equals(Type.BOOL)) {
             throw new RuntimeException();
         }
