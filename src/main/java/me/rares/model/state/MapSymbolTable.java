@@ -1,6 +1,5 @@
 package me.rares.model.state;
 
-import me.rares.model.exception.InvalidTypeException;
 import me.rares.model.exception.InvalidVariableNameException;
 import me.rares.model.type.Type;
 import me.rares.model.value.Value;

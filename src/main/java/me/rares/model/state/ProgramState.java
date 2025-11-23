@@ -2,10 +2,6 @@ package me.rares.model.state;
 
 import me.rares.model.statement.Statement;
 
-/**
- * Represents the complete state of a program during execution.
- * Includes factory methods for convenient creation.
- */
 public class ProgramState {
     private ExecutionStack executionStack;
     private SymbolTable symbolTable;

@@ -1,5 +1,6 @@
 package me.rares.model.expression;
 
+import me.rares.model.state.Heap;
 import me.rares.model.state.SymbolTable;
 import me.rares.model.type.Type;
 import me.rares.model.value.BoolValue;
@@ -8,9 +9,9 @@ import me.rares.model.value.Value;
 
 public record RelationalExpression(Expression left, String operator, Expression right) implements Expression {
     @Override
-    public Value evaluate(SymbolTable symbolTable) {
-        Value resultLeft = left.evaluate(symbolTable);
-        Value resultRight = right.evaluate(symbolTable);
+    public Value evaluate(SymbolTable symbolTable, Heap heap) {
+        Value resultLeft = left.evaluate(symbolTable, heap);
+        Value resultRight = right.evaluate(symbolTable, heap);
 
         if (!(resultLeft.type().equals(Type.INT))) {
             throw new RuntimeException("RelationalExpression: left value is not a integer value");
@@ -37,5 +38,4 @@ public record RelationalExpression(Expression left, String operator, Expression 
             default -> throw new RuntimeException("RelationalExpression: invalid operator");
         };
     }
-
 }
