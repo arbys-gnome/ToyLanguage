@@ -1,6 +1,8 @@
 package me.rares.controller;
 
+import me.rares.model.exception.InvalidHeapAddressException;
 import me.rares.model.exception.InvalidVariableNameException;
+import me.rares.model.exception.InvalidVariableTypeException;
 import me.rares.model.state.ListExecutionStack;
 import me.rares.model.state.ListOutput;
 import me.rares.model.state.MapSymbolTable;
@@ -36,7 +38,7 @@ public class Controller {
             Statement statement = programState.nextStatement();
             try {
                 statement.execute(programState);
-            } catch (InvalidVariableNameException e) {
+            } catch (InvalidVariableNameException | InvalidHeapAddressException | InvalidVariableTypeException e) {
                 throw new RuntimeException(e);
             }
         }
@@ -73,6 +75,8 @@ public class Controller {
             throw new Exception("Variable error during execution: " + e.getMessage());
         } catch (Exception e) {
             throw new Exception("Unexpected error during execution: " + e.getMessage());
+        } catch (InvalidVariableTypeException | InvalidHeapAddressException e) {
+            throw new RuntimeException(e);
         }
     }
 }

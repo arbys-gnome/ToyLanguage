@@ -25,7 +25,7 @@ public class OpenFileRead implements Statement {
     @Override
     public ProgramState execute(ProgramState state) {
         // Evaluate the expression
-        Value value = expression.evaluate(state.getSymbolTable());
+        Value value = expression.evaluate(state.getSymbolTable(), state.getHeap());
 
         // Check if the value is a StringValue
         if (!(value.type().equals(Type.STRING))) {

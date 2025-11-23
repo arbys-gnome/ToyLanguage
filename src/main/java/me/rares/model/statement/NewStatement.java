@@ -19,7 +19,7 @@ public record NewStatement(String var, Expression expression) implements Stateme
             throw new InvalidTypeException(var + " is not reference.");
         }
         RefValue ref = (RefValue)state.getSymbolTable().getValue(var);
-        Value value = expression.evaluate(state.getSymbolTable());
+        Value value = expression.evaluate(state.getSymbolTable(), state.getHeap());
         if (!value.type().equals(((RefType)ref.type()).innerType())) {
             throw new InvalidTypeException("Can't assign a value of type " + value.type() + " to a reference of type " + ref.type() + ".");
         }

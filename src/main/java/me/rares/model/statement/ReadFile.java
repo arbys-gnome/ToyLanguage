@@ -47,7 +47,7 @@ public class ReadFile implements Statement {
         }
 
         // Evaluate expression to get filename
-        Value value = expression.evaluate(state.getSymbolTable());
+        Value value = expression.evaluate(state.getSymbolTable(), state.getHeap());
 
         if (!value.type().equals(Type.STRING)) {
             throw new InvalidTypeException("ReadFile: Expression must evaluate to a string type");
