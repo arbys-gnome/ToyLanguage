@@ -1,6 +1,5 @@
 package me.rares.model.type;
 
-import me.rares.model.value.BoolValue;
 import me.rares.model.value.RefValue;
 import me.rares.model.value.Value;
 

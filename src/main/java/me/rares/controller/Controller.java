@@ -9,11 +9,11 @@ import me.rares.repository.Repository;
 
 public class Controller {
     private final Repository repository;
-    private boolean displaFlag = false;
+    private boolean displayFlag = false;
 
     public Controller(Repository repo, boolean displayFlag) {
         repository = repo;
-        displaFlag = displayFlag;
+        this.displayFlag = displayFlag;
     }
 
     // complete execution
@@ -21,7 +21,7 @@ public class Controller {
         var state = repository.getCurrentProgramState();
 
         while (!state.isFinished()) {
-            if (displaFlag) {
+            if (displayFlag) {
                 IO.println(state);
             }
 

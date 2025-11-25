@@ -1,12 +1,10 @@
 package me.rares.model.expression;
 
-import me.rares.model.exception.InvalidHeapAddressException;
 import me.rares.model.exception.InvalidOperatorException;
 import me.rares.model.exception.InvalidTypeException;
 import me.rares.model.state.Heap;
 import me.rares.model.state.SymbolTable;
 import me.rares.model.type.Type;
-import me.rares.model.value.BoolValue;
 import me.rares.model.value.IntValue;
 import me.rares.model.value.Value;
 

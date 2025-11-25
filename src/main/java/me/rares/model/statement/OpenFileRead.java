@@ -1,7 +1,6 @@
 package me.rares.model.statement;
 
 import me.rares.model.exception.FileOpeningException;
-import me.rares.model.exception.InvalidHeapAddressException;
 import me.rares.model.exception.InvalidTypeException;
 import me.rares.model.exception.InvalidVariableNameException;
 import me.rares.model.expression.Expression;
