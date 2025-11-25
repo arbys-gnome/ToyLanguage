@@ -3,12 +3,12 @@ package me.rares.view;
 import me.rares.controller.Controller;
 
 public class RunExample extends Command {
-    private Controller controller;
+    private final Controller controller;
 
     /**
      * Constructor for RunExample
      * @param key The menu option key
-     * @param description The description (typically the program's toString())
+     * @param description The description
      * @param controller The controller that will execute the program
      */
     public RunExample(String key, String description, Controller controller) {

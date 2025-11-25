@@ -18,11 +18,11 @@ public class Controller {
 
     // complete execution
     public void execute() {
-        var programState = repository.getCurrentProgramState();
+        var state = repository.getCurrentProgramState();
 
-        while (!programState.isFinished()) {
+        while (!state.isFinished()) {
             if (displaFlag) {
-                IO.println(programState);
+                IO.println(state);
             }
 
             // Log the new state
@@ -33,17 +33,17 @@ public class Controller {
             }
 
             // Collect the garbage
-            programState.garbageCollect();
+            state.garbageCollect();
 
-            Statement statement = programState.nextStatement();
+            Statement statement = state.nextStatement();
             try {
-                statement.execute(programState);
+                statement.execute(state);
             } catch (InvalidVariableNameException | InvalidHeapAddressException | InvalidVariableTypeException e) {
                 throw new RuntimeException(e);
             }
         }
 
-        IO.println(programState);
+        IO.println(state);
     }
 
     /**
@@ -69,6 +69,9 @@ public class Controller {
             } catch (Exception ex) {
                 System.out.println(ex.getMessage());
             }
+
+            // Collect the garbage
+            state.garbageCollect();
 
             return state;
         } catch (InvalidVariableNameException e) {

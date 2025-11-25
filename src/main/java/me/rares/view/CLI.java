@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class CLI {
-    private Map<String, Command> commands;
+    private final Map<String, Command> commands;
 
     public CLI() {
         commands = new HashMap<>();
@@ -37,7 +37,7 @@ public class CLI {
 
     /**
      * Show the menu and handle user input in a loop.
-     * Continues until user exits (typically via ExitCommand).
+     * Continues until user exits.
      */
     public void show() {
         Scanner scanner = new Scanner(System.in);

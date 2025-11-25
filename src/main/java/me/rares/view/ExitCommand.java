@@ -1,7 +1,6 @@
 package me.rares.view;
 
 public class ExitCommand extends Command {
-
     /**
      * Constructor for ExitCommand
      * @param key The menu option key

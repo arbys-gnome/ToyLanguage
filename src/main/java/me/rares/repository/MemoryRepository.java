@@ -14,7 +14,7 @@ import java.util.Map;
 public class MemoryRepository implements Repository {
     private final List<ProgramState> programStates;
     private final String logFilePath;
-    private int currentProgramIndex;
+    private final int currentProgramIndex;
 
     public MemoryRepository(ProgramState state, String logFilePath) {
         this.programStates = new java.util.ArrayList<>();
