@@ -35,25 +35,25 @@ public class MemoryRepository implements Repository {
         try (PrintWriter logFile = new PrintWriter(new BufferedWriter(new FileWriter(logFilePath, true)))) {
 
             logFile.println("ExeStack:");
-            for (Statement stmt : state.getExecutionStack()) {
+            for (Statement stmt : state.executionStack()) {
                 logFile.println(stmt.toString());
             }
             logFile.println();
 
             logFile.println("SymTable:");
-            for (Map.Entry<String, Value> entry : state.getSymbolTable().entrySet()) {
+            for (Map.Entry<String, Value> entry : state.symbolTable().entrySet()) {
                 logFile.println(entry.getKey() + " --> " + entry.getValue());
             }
             logFile.println();
 
             logFile.println("Out:");
-            for (Object value : state.getOutput()) {
+            for (Object value : state.output()) {
                 logFile.println(value);
             }
             logFile.println();
 
             logFile.println("FileTable:");
-            for (StringValue filename : state.getFileTable().getAllFilenames()) {
+            for (StringValue filename : state.fileTable().getAllFilenames()) {
                 logFile.println(filename.value());
             }
 

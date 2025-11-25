@@ -39,6 +39,11 @@ public class ListExecutionStack implements ExecutionStack {
     }
 
     @Override
+    public void clear() {
+        statements.clear();
+    }
+
+    @Override
     public Iterator<Statement> iterator() {
         return statements.iterator();
     }

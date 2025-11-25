@@ -37,17 +37,17 @@ public class ReadFile implements Statement {
     @Override
     public ProgramState execute(ProgramState state) throws InvalidVariableNameException {
         // Check if variable is defined and is int type
-        if (!state.getSymbolTable().isDefined(variableName)) {
+        if (!state.symbolTable().isDefined(variableName)) {
             throw new RuntimeException("ReadFile: Variable '" + variableName + "' is not defined");
         }
 
-        Value varValue = state.getSymbolTable().lookup(variableName);
+        Value varValue = state.symbolTable().lookup(variableName);
         if (!varValue.type().equals(Type.INT)) {
             throw new InvalidTypeException("ReadFile: Variable '" + variableName + "' must be of int type");
         }
 
         // Evaluate expression to get filename
-        Value value = expression.evaluate(state.getSymbolTable(), state.getHeap());
+        Value value = expression.evaluate(state.symbolTable(), state.heap());
 
         if (!value.type().equals(Type.STRING)) {
             throw new InvalidTypeException("ReadFile: Expression must evaluate to a string type");
@@ -57,12 +57,12 @@ public class ReadFile implements Statement {
         String filename = stringValue.value();
 
         // Check if file is open in FileTable
-        if (!state.getFileTable().isDefined(stringValue)) {
+        if (!state.fileTable().isDefined(stringValue)) {
             throw new RuntimeException("ReadFile: File '" + filename + "' is not open");
         }
 
         // Get BufferedReader from FileTable
-        BufferedReader reader = state.getFileTable().lookup(stringValue);
+        BufferedReader reader = state.fileTable().lookup(stringValue);
 
         try {
             // Read a line from the file
@@ -83,7 +83,7 @@ public class ReadFile implements Statement {
             }
 
             // Update SymTable
-            state.getSymbolTable().setValue(variableName, intValue);
+            state.symbolTable().setValue(variableName, intValue);
 
         } catch (IOException e) {
             throw new RuntimeException("ReadFile: IO error reading from file '" + filename + "'", e);

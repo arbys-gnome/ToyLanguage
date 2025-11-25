@@ -11,22 +11,22 @@ import me.rares.model.value.Value;
 public record NewStatement(String var, Expression expression) implements Statement {
     @Override
     public ProgramState execute(ProgramState state) throws InvalidVariableNameException {
-        if (!state.getSymbolTable().isDefined(var)) {
+        if (!state.symbolTable().isDefined(var)) {
             throw new InvalidVariableNameException(var + " is not defined.");
         }
 
-        if (!state.getSymbolTable().getType(var).isReference()) {
+        if (!state.symbolTable().getType(var).isReference()) {
             throw new InvalidTypeException(var + " is not reference.");
         }
-        RefValue ref = (RefValue)state.getSymbolTable().getValue(var);
-        Value value = expression.evaluate(state.getSymbolTable(), state.getHeap());
+        RefValue ref = (RefValue)state.symbolTable().getValue(var);
+        Value value = expression.evaluate(state.symbolTable(), state.heap());
         if (!value.type().equals(((RefType)ref.type()).innerType())) {
             throw new InvalidTypeException("Can't assign a value of type " + value.type() + " to a reference of type " + ref.type() + ".");
         }
 
-        int address = state.getHeap().allocate(value);
+        int address = state.heap().allocate(value);
 
-        state.getSymbolTable().setValue(var, new RefValue(address, value.type()));
+        state.symbolTable().setValue(var, new RefValue(address, value.type()));
 
         return state;
     }

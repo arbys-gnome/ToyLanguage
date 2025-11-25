@@ -6,8 +6,8 @@ public record CompoundStatement(Statement first, Statement second) implements St
     @Override
     public ProgramState execute(ProgramState state) {
         // Make sure 'first' executes first
-        state.getExecutionStack().push(second);
-        state.getExecutionStack().push(first);
+        state.executionStack().push(second);
+        state.executionStack().push(first);
         return state;
     }
 

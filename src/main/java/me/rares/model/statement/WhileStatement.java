@@ -10,14 +10,14 @@ import me.rares.model.value.Value;
 public record WhileStatement(Expression condition, Statement body) implements Statement {
     @Override
     public ProgramState execute(ProgramState state) {
-        Value conditionVal = condition.evaluate(state.getSymbolTable(), state.getHeap());
+        Value conditionVal = condition.evaluate(state.symbolTable(), state.heap());
         if (conditionVal.type().equals(Type.BOOL)) {
             throw new InvalidTypeException("The condition of while should evaluate to a boolean value.");
         }
         BoolValue conditionBoolVal = (BoolValue) conditionVal;
         if (conditionBoolVal.value()) {
-            state.getExecutionStack().push(this);
-            state.getExecutionStack().push(body);
+            state.executionStack().push(this);
+            state.executionStack().push(body);
         }
         return state;
     }

@@ -3,9 +3,6 @@ package me.rares.controller;
 import me.rares.model.exception.InvalidHeapAddressException;
 import me.rares.model.exception.InvalidVariableNameException;
 import me.rares.model.exception.InvalidVariableTypeException;
-import me.rares.model.state.ListExecutionStack;
-import me.rares.model.state.ListOutput;
-import me.rares.model.state.MapSymbolTable;
 import me.rares.model.state.ProgramState;
 import me.rares.model.statement.Statement;
 import me.rares.repository.Repository;
@@ -28,12 +25,15 @@ public class Controller {
                 IO.println(programState);
             }
 
-            // Log the new state after each step
+            // Log the new state
             try {
                 repository.logProgramState();
             } catch (Exception ex) {
                 System.out.println(ex.getMessage());
             }
+
+            // Collect the garbage
+            programState.garbageCollect();
 
             Statement statement = programState.nextStatement();
             try {
@@ -52,7 +52,7 @@ public class Controller {
      * executes it, and logs the resulting program state.
      */
     public ProgramState oneStep(ProgramState state) throws Exception {
-        if (state.getExecutionStack().isEmpty()) {
+        if (state.executionStack().isEmpty()) {
             throw new Exception("Program execution stack is empty.");
         }
 

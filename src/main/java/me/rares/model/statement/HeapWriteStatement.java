@@ -11,18 +11,18 @@ import me.rares.model.value.Value;
 public record HeapWriteStatement(String varName, Expression expression) implements Statement {
     @Override
     public ProgramState execute(ProgramState state) throws InvalidVariableNameException, InvalidVariableTypeException, InvalidHeapAddressException {
-        if (!state.getSymbolTable().isDefined(varName)) {
+        if (!state.symbolTable().isDefined(varName)) {
             throw new InvalidVariableNameException(varName);
         }
-        Value val = state.getSymbolTable().getValue(varName);
+        Value val = state.symbolTable().getValue(varName);
         if (!val.type().isReference()) {
             throw new InvalidVariableTypeException(varName + " is not a reference.");
         }
         Integer address = ((RefValue)val).address();
-        if (!state.getHeap().isAllocated(address)) {
+        if (!state.heap().isAllocated(address)) {
             throw new InvalidHeapAddressException(varName + " is not allocated.");
         }
-        state.getHeap().write(address, val);
+        state.heap().write(address, val);
         return state;
     }
 

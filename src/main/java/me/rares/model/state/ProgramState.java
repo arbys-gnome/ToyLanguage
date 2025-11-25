@@ -1,6 +1,12 @@
 package me.rares.model.state;
 
 import me.rares.model.statement.Statement;
+import me.rares.model.value.RefValue;
+import me.rares.model.value.Value;
+
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 public class ProgramState {
     private ExecutionStack executionStack;
@@ -8,87 +14,36 @@ public class ProgramState {
     private FileTable fileTable;
     private Heap heap;
     private Output output;
-    private final Statement program;
+    private Statement originalStatement;
 
     public ProgramState(ExecutionStack executionStack,
                         SymbolTable symbolTable,
                         FileTable fileTable,
                         Heap heap,
-                        Statement program,
-                        Output output
+                        Output output,
+                        Statement statement
     ) {
         this.executionStack = executionStack;
         this.symbolTable = symbolTable;
         this.fileTable = fileTable;
         this.heap = heap;
-        this.program = deepCopy(program);
+        this.originalStatement = deepCopy(statement);
         this.output = output;
 
         // Push the program onto the execution stack
-        this.executionStack.push(program);
-    }
-
-    public static Builder builder() {
-        return new Builder();
-    }
-
-    public static class Builder {
-        private ExecutionStack executionStack;
-        private SymbolTable symbolTable;
-        private FileTable fileTable;
-        Heap heap;
-        private Statement program;
-        private Output output;
-
-        public Builder executionStack(ExecutionStack executionStack) {
-            this.executionStack = executionStack;
-            return this;
-        }
-
-        public Builder symbolTable(SymbolTable symbolTable) {
-            this.symbolTable = symbolTable;
-            return this;
-        }
-
-        public Builder output(Output output) {
-            this.output = output;
-            return this;
-        }
-
-        public Builder fileTable(FileTable fileTable) {
-            this.fileTable = fileTable;
-            return this;
-        }
-
-        public Builder heap(Heap heap) {
-            this.heap = heap;
-            return this;
-        }
-
-        public Builder program(Statement program) {
-            this.program = program;
-            return this;
-        }
-
-        public ProgramState build() {
-            if (program == null) {
-                throw new IllegalStateException("Program cannot be null");
-            }
-
-            return new ProgramState(
-                    executionStack != null ? executionStack : new ListExecutionStack(),
-                    symbolTable != null ? symbolTable : new MapSymbolTable(),
-                    fileTable != null ? fileTable : new MapFileTable(),
-                    heap != null ? heap : new MapHeap(),
-                    program,
-                    output != null ? output : new ListOutput()
-            );
-        }
+        this.executionStack.push(statement);
     }
 
     private Statement deepCopy(Statement stmt) {
-        // For now, statements are treated as immutable
         return stmt;
+    }
+
+    public void clean() {
+        this.executionStack.clear();
+        this.symbolTable.clear();
+        this.fileTable.clear();
+        this.heap.clear();
+        this.output.clear();
     }
 
     public boolean isFinished() {
@@ -99,38 +54,40 @@ public class ProgramState {
         return executionStack.pop();
     }
 
-    // ============== GETTERS ==============
-    public ExecutionStack getExecutionStack() {
+    public ExecutionStack executionStack() {
         return executionStack;
     }
 
-    public SymbolTable getSymbolTable() {
+    public SymbolTable symbolTable() {
         return symbolTable;
     }
 
-    public Heap getHeap() {
+    public Heap heap() {
         return heap;
     }
 
-    public Output getOutput() {
+    public Output output() {
         return output;
     }
 
-    public FileTable getFileTable() {
+    public FileTable fileTable() {
         return fileTable;
     }
 
-    public Statement getProgram() {
-        return program;
+    public Statement program() {
+        return originalStatement;
     }
 
-    // ============== SETTERS ==============
     public void setExecutionStack(ExecutionStack executionStack) {
         this.executionStack = executionStack;
     }
 
     public void setSymbolTable(SymbolTable symbolTable) {
         this.symbolTable = symbolTable;
+    }
+
+    public void setHeap(Heap heap) {
+        this.heap = heap;
     }
 
     public void setOutput(Output output) {
@@ -141,7 +98,10 @@ public class ProgramState {
         this.fileTable = fileTable;
     }
 
-    // ============== TO STRING ==============
+    public void setOriginalStatement(Statement originalStatement) {
+        this.originalStatement = originalStatement;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -157,5 +117,50 @@ public class ProgramState {
         sb.append(output.toString()).append("\n");
 
         return sb.toString();
+    }
+
+    private Set<Integer> computeReachableAddresses(List<Integer> rootAddresses) {
+        Set<Integer> reachable = new HashSet<>(rootAddresses);
+        boolean newAddressFound;
+
+        do {
+            newAddressFound = false;
+
+            for (var entry : heap.entrySet()) {
+                Integer address = entry.getKey();
+                Value value = entry.getValue();
+
+                // If this address is already known to be reachable
+                if (reachable.contains(address) && value.type().isReference()) {
+
+                    int innerAddress = ((RefValue) value).address();
+
+                    // If we found a new reachable address, add it and re-run
+                    if (reachable.add(innerAddress)) {
+                        newAddressFound = true;
+                    }
+                }
+            }
+        } while (newAddressFound);
+
+        return reachable;
+    }
+
+    public void garbageCollect() {
+        List<Integer> rootAddresses =
+                StreamSupport.stream(symbolTable.entrySet().spliterator(), false)
+                        .map(Map.Entry::getValue)
+                        .filter(value -> value.type().isReference())
+                        .map(value -> ((RefValue) value).address())
+                        .toList();
+
+        Set<Integer> reachableAddresses = computeReachableAddresses(rootAddresses);
+
+        Map<Integer, Value> filteredHeapContent =
+                StreamSupport.stream(heap.entrySet().spliterator(), false)
+                        .filter(entry -> reachableAddresses.contains(entry.getKey()))
+                        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+
+        heap.setContent(filteredHeapContent);
     }
 }

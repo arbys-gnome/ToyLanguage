@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MapSymbolTable implements  SymbolTable {
-    Map<String, Value> symbolTable = new HashMap<>();
+    private final Map<String, Value> symbolTable = new HashMap<>();
 
     @Override
     public void setValue(String variableName, Value value) {
@@ -60,5 +60,10 @@ public class MapSymbolTable implements  SymbolTable {
     @Override
     public Iterable<Map.Entry<String, Value>> entrySet() {
         return symbolTable.entrySet();
+    }
+
+    @Override
+    public void clear() {
+        symbolTable.clear();
     }
 }

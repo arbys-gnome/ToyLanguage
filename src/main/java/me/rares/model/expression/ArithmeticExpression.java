@@ -24,7 +24,7 @@ public record ArithmeticExpression(Expression left, char operator, Expression ri
         }
 
         int leftValue = ((IntValue)resultLeft).value();
-        int rightValue = ((IntValue)resultLeft).value();
+        int rightValue = ((IntValue)resultRight).value();
 
         int result = getResult(leftValue, rightValue, operator);
         return new IntValue(result);

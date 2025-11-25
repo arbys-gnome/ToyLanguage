@@ -6,8 +6,8 @@ import me.rares.model.state.ProgramState;
 public record PrintStatement(Expression expression) implements Statement {
     @Override
     public ProgramState execute(ProgramState state) {
-        var value = expression.evaluate(state.getSymbolTable(), state.getHeap());
-        state.getOutput().add(value);
+        var value = expression.evaluate(state.symbolTable(), state.heap());
+        state.output().add(value);
         return state;
     }
 

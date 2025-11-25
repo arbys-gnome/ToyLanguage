@@ -9,16 +9,16 @@ import me.rares.model.value.Value;
 public record IfStatement(Expression condition, Statement thenStatement, Statement elseStatement) implements Statement {
     @Override
     public ProgramState execute(ProgramState state) {
-        Value value = condition.evaluate(state.getSymbolTable(), state.getHeap());
+        Value value = condition.evaluate(state.symbolTable(), state.heap());
         if (!value.type().equals(Type.BOOL)) {
             throw new RuntimeException();
         }
 
         var booleanValue = (BoolValue) value;
         if (booleanValue.value()) {
-            state.getExecutionStack().push(thenStatement);
+            state.executionStack().push(thenStatement);
         } else {
-            state.getExecutionStack().push(elseStatement);
+            state.executionStack().push(elseStatement);
         }
         return null;
     }

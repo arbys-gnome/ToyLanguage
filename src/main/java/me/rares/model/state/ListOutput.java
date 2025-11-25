@@ -14,6 +14,11 @@ public class ListOutput implements Output {
     }
 
     @Override
+    public void clear() {
+        values.clear();
+    }
+
+    @Override
     public String toString() {
         return "ListOut = " + values;
     }

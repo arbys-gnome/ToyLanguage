@@ -25,7 +25,7 @@ public class OpenFileRead implements Statement {
     @Override
     public ProgramState execute(ProgramState state) {
         // Evaluate the expression
-        Value value = expression.evaluate(state.getSymbolTable(), state.getHeap());
+        Value value = expression.evaluate(state.symbolTable(), state.heap());
 
         // Check if the value is a StringValue
         if (!(value.type().equals(Type.STRING))) {
@@ -36,7 +36,7 @@ public class OpenFileRead implements Statement {
         String filename = stringValue.value();
 
         // Check if file is already open
-        if (state.getFileTable().isDefined(stringValue)) {
+        if (state.fileTable().isDefined(stringValue)) {
             throw new RuntimeException("OpenFileRead: File '" + filename + "' is already open");
         }
 
@@ -45,7 +45,7 @@ public class OpenFileRead implements Statement {
             BufferedReader reader = new BufferedReader(new FileReader(filename));
 
             // Add to FileTable
-            state.getFileTable().put(stringValue, reader);
+            state.fileTable().put(stringValue, reader);
 
         } catch (FileNotFoundException e) {
             throw new RuntimeException("OpenFileRead: File '" + filename + "' not found", e);

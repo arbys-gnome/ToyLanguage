@@ -18,23 +18,49 @@ public class Main {
 
     public static void main(String[] args) {
 
-        ProgramState program1 = ProgramState.builder()
-                                    .program(Examples.ex1)
-                                    .build();
+        ProgramState program1 = new ProgramState(
+                new ListExecutionStack(),
+                new MapSymbolTable(),
+                new MapFileTable(),
+                new MapHeap(),
+                new ListOutput(),
+                Examples.ex1
+        );
 
         Repository repo1 = new MemoryRepository(program1, "/tmp/log1.txt");
         Controller ctr1 = new Controller(repo1, false);
 
 
-        ProgramState program2 = ProgramState.builder().program(Examples.ex2).build();
+        ProgramState program2 = new ProgramState(
+                new ListExecutionStack(),
+                new MapSymbolTable(),
+                new MapFileTable(),
+                new MapHeap(),
+                new ListOutput(),
+                Examples.ex2
+        );
         Repository repo2 = new MemoryRepository(program2, "/tmp/log2.txt");
         Controller ctr2 = new Controller(repo2, false);
 
-        ProgramState program3 = ProgramState.builder().program(Examples.ex3).build();
+        ProgramState program3 = new ProgramState(
+                new ListExecutionStack(),
+                new MapSymbolTable(),
+                new MapFileTable(),
+                new MapHeap(),
+                new ListOutput(),
+                Examples.ex3
+        );
         Repository repo3 = new MemoryRepository(program3, "/tmp/log3.txt");
         Controller ctr3 = new Controller(repo3, false);
 
-        ProgramState program4 = ProgramState.builder().program(Examples.ex4).build();
+        ProgramState program4 = new ProgramState(
+                new ListExecutionStack(),
+                new MapSymbolTable(),
+                new MapFileTable(),
+                new MapHeap(),
+                new ListOutput(),
+                Examples.ex4
+        );
         Repository repo4 = new MemoryRepository(program4, "/tmp/log4.txt");
         Controller ctr4 = new Controller(repo4, false);
 

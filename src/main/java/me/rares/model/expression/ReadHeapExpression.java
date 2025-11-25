@@ -1,5 +1,6 @@
 package me.rares.model.expression;
 
+import me.rares.model.exception.InvalidHeapAddressException;
 import me.rares.model.exception.InvalidTypeException;
 import me.rares.model.state.Heap;
 import me.rares.model.state.SymbolTable;
@@ -17,8 +18,8 @@ public record ReadHeapExpression(String refVariableName) implements Expression {
         RefValue ref = (RefValue) val;
         try {
             return heap.read(ref.address());
-        } catch (Exception e) {
-            throw e; // TODO: implement custom exception
+        } catch (InvalidHeapAddressException e) {
+            throw new RuntimeException(e); // TODO: implement custom exception
         }
     }
 }

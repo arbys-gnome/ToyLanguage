@@ -24,7 +24,7 @@ public class CloseFileRead implements Statement {
     @Override
     public ProgramState execute(ProgramState state) {
         // Evaluate the expression
-        Value value = expression.evaluate(state.getSymbolTable(), state.getHeap());
+        Value value = expression.evaluate(state.symbolTable(), state.heap());
 
         // Check if the value is a StringValue
         if (!value.type().equals(Type.STRING)) {
@@ -35,18 +35,18 @@ public class CloseFileRead implements Statement {
         String filename = stringValue.value();
 
         // Check if file is open in FileTable
-        if (!state.getFileTable().isDefined(stringValue)) {
+        if (!state.fileTable().isDefined(stringValue)) {
             throw new RuntimeException("CloseFileRead: File '" + filename + "' is not open");
         }
 
-        BufferedReader reader = state.getFileTable().lookup(stringValue);
+        BufferedReader reader = state.fileTable().lookup(stringValue);
 
         try {
             // Close the file
             reader.close();
 
             // Remove from FileTable
-            state.getFileTable().remove(stringValue);
+            state.fileTable().remove(stringValue);
 
         } catch (IOException e) {
             throw new RuntimeException("CloseFileRead: IO error closing file '" + filename + "'", e);

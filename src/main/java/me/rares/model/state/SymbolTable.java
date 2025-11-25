@@ -20,4 +20,6 @@ public interface SymbolTable {
     Value lookup(String variableName) throws InvalidVariableNameException;
 
     Iterable<Map.Entry<String, Value>> entrySet();
+
+    void clear();
 }

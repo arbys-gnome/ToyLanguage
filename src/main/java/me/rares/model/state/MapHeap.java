@@ -3,39 +3,58 @@ package me.rares.model.state;
 import me.rares.model.exception.InvalidHeapAddressException;
 import me.rares.model.value.Value;
 
-import java.util.HashMap;
+import java.util.*;
 
 public class MapHeap implements Heap {
-    private HashMap<Integer, Value> map = new HashMap<>();
+    private final HashMap<Integer, Value> heap = new HashMap<>();
     private int nextFree = 1;
 
     @Override
     public boolean isAllocated(Integer address) {
-        return map.containsKey(address);
+        return heap.containsKey(address);
     }
 
     @Override
     public int allocate(Value value) {
         int address = nextFree;
-        map.put(nextFree++, value);
+        heap.put(nextFree++, value);
         return address;
     }
 
     @Override
-    public Value read(Integer address) {
-        return map.get(address);
+    public Value read(Integer address) throws InvalidHeapAddressException {
+        if (!heap.containsKey(address)) {
+            throw new InvalidHeapAddressException(address + " is not a valid address.");
+        }
+        return heap.get(address);
     }
 
     @Override
     public void write(Integer address, Value value) throws InvalidHeapAddressException {
-        if (!map.containsKey(address)) {
+        if (!heap.containsKey(address)) {
             throw new InvalidHeapAddressException(address + " is not a valid address.");
         }
-        map.replace(address, value);
+        heap.replace(address, value);
+    }
+
+    @Override
+    public Iterable<Map.Entry<Integer, Value>> entrySet() {
+        return heap.entrySet();
+    }
+
+    @Override
+    public void setContent(Map<Integer, Value> newContent) {
+        heap.clear();
+        heap.putAll(newContent);
     }
 
     @Override
     public String toString() {
         return "MapHeap";
+    }
+
+    @Override
+    public void clear() {
+        heap.clear();
     }
 }
