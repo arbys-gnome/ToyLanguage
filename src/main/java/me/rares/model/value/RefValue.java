@@ -26,4 +26,9 @@ public class RefValue implements Value {
             return address == ((RefValue) another).address();
         else return false;
     }
+
+    @Override
+    public String toString() {
+        return "&" + address + ":" + locationType;
+    }
 }

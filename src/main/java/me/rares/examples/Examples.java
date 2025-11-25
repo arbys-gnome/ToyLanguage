@@ -4,10 +4,13 @@ import me.rares.model.expression.ArithmeticExpression;
 import me.rares.model.expression.ValueExpression;
 import me.rares.model.expression.VariableExpression;
 import me.rares.model.statement.*;
+import me.rares.model.type.RefType;
 import me.rares.model.type.Type;
 import me.rares.model.value.BoolValue;
 import me.rares.model.value.IntValue;
 import me.rares.model.value.StringValue;
+
+import java.util.List;
 
 public class Examples {
     // Example 1: int v; v=2; Print(v)
@@ -97,4 +100,21 @@ public class Examples {
                     )
             )
     );
+    // Example 5:
+    // int &v;
+    // new(v,20);
+    // int &&a;
+    // new(a,v);
+    // new(v,30);
+    // print(rH(rH(a)));
+    public static final Statement ex5 = new BlockStatement(List.of(
+            new VariableDeclarationStatement(new RefType(Type.INT), "v"),
+            new NewStatement("v", new ValueExpression(new IntValue(20))),
+            new VariableDeclarationStatement(new RefType(new RefType(Type.INT)), "a"),
+            new NewStatement("a", new VariableExpression("v")),
+            new NewStatement("v", new ValueExpression(new IntValue(30))),
+            new PrintStatement(new VariableExpression("v"))
+        )
+    );
 }
+

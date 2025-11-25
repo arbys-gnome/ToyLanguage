@@ -4,57 +4,66 @@ import me.rares.model.exception.InvalidHeapAddressException;
 import me.rares.model.value.Value;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class MapHeap implements Heap {
-    private final HashMap<Integer, Value> heap = new HashMap<>();
+    private final HashMap<Integer, Value> content = new HashMap<>();
     private int nextFree = 1;
 
     @Override
     public boolean isAllocated(Integer address) {
-        return heap.containsKey(address);
+        return content.containsKey(address);
     }
 
     @Override
     public int allocate(Value value) {
         int address = nextFree;
-        heap.put(nextFree++, value);
+        content.put(nextFree++, value);
         return address;
     }
 
     @Override
     public Value read(Integer address) throws InvalidHeapAddressException {
-        if (!heap.containsKey(address)) {
+        if (!content.containsKey(address)) {
             throw new InvalidHeapAddressException(address + " is not a valid address.");
         }
-        return heap.get(address);
+        return content.get(address);
     }
 
     @Override
     public void write(Integer address, Value value) throws InvalidHeapAddressException {
-        if (!heap.containsKey(address)) {
+        if (!content.containsKey(address)) {
             throw new InvalidHeapAddressException(address + " is not a valid address.");
         }
-        heap.replace(address, value);
+        content.replace(address, value);
     }
 
     @Override
     public Iterable<Map.Entry<Integer, Value>> entrySet() {
-        return heap.entrySet();
+        return content.entrySet();
     }
 
     @Override
     public void setContent(Map<Integer, Value> newContent) {
-        heap.clear();
-        heap.putAll(newContent);
+        content.clear();
+        content.putAll(newContent);
     }
 
     @Override
     public String toString() {
-        return "MapHeap";
+        if (content.isEmpty()) {
+            return "MapHeap:\n(empty)";
+        }
+
+        String entries = content.entrySet().stream()
+                .map(e -> e.getKey() + " -> " + e.getValue().toString())
+                .collect(Collectors.joining("\n"));
+
+        return "MapHeap:\n" + entries;
     }
 
     @Override
     public void clear() {
-        heap.clear();
+        content.clear();
     }
 }

@@ -64,6 +64,17 @@ public class Main {
         Repository repo4 = new MemoryRepository(program4, "/tmp/log4.txt");
         Controller ctr4 = new Controller(repo4, false);
 
+        ProgramState program5 = new ProgramState(
+                new ListExecutionStack(),
+                new MapSymbolTable(),
+                new MapFileTable(),
+                new MapHeap(),
+                new ListOutput(),
+                Examples.ex5
+        );
+        Repository repo5 = new MemoryRepository(program5, "/tmp/log5.txt");
+        Controller ctr5 = new Controller(repo5, false);
+
         // Create the text menu
         CLI menu = new CLI();
 
@@ -72,6 +83,7 @@ public class Main {
         menu.addCommand(new RunExample("2", Examples.ex2.toString(), ctr2));
         menu.addCommand(new RunExample("3", Examples.ex3.toString(), ctr3));
         menu.addCommand(new RunExample("4", Examples.ex4.toString(), ctr4));
+        menu.addCommand(new RunExample("5", Examples.ex5.toString(), ctr5));
 
         // Show the menu - this will run until user selects exit
         menu.show();
