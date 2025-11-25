@@ -1,6 +1,8 @@
 package me.rares.model.statement;
 
+import me.rares.model.exception.FileOpeningException;
 import me.rares.model.exception.InvalidTypeException;
+import me.rares.model.exception.InvalidValueException;
 import me.rares.model.exception.InvalidVariableNameException;
 import me.rares.model.expression.Expression;
 import me.rares.model.state.ProgramState;
@@ -35,10 +37,10 @@ public class ReadFile implements Statement {
      * 6. Update SymTable with the new value
      */
     @Override
-    public ProgramState execute(ProgramState state) throws InvalidVariableNameException {
+    public ProgramState execute(ProgramState state) throws Exception {
         // Check if variable is defined and is int type
         if (!state.symbolTable().isDefined(variableName)) {
-            throw new RuntimeException("ReadFile: Variable '" + variableName + "' is not defined");
+            throw new InvalidVariableNameException("ReadFile: Variable '" + variableName + "' is not defined");
         }
 
         Value varValue = state.symbolTable().lookup(variableName);
@@ -58,7 +60,7 @@ public class ReadFile implements Statement {
 
         // Check if file is open in FileTable
         if (!state.fileTable().isDefined(stringValue)) {
-            throw new RuntimeException("ReadFile: File '" + filename + "' is not open");
+            throw new FileOpeningException("ReadFile: File '" + filename + "' is not open");
         }
 
         // Get BufferedReader from FileTable
@@ -78,7 +80,7 @@ public class ReadFile implements Statement {
                     int parsedValue = Integer.parseInt(line.trim());
                     intValue = new IntValue(parsedValue);
                 } catch (NumberFormatException e) {
-                    throw new RuntimeException("ReadFile: Line '" + line + "' is not a valid integer", e);
+                    throw new InvalidValueException("ReadFile: Line '" + line + "' is not a valid integer");
                 }
             }
 
@@ -86,7 +88,7 @@ public class ReadFile implements Statement {
             state.symbolTable().setValue(variableName, intValue);
 
         } catch (IOException e) {
-            throw new RuntimeException("ReadFile: IO error reading from file '" + filename + "'", e);
+            throw new Exception("ReadFile: IO error reading from file '" + filename + "'", e);
         }
 
         return state;

@@ -1,6 +1,9 @@
 package me.rares.model.statement;
 
+import me.rares.model.exception.FileOpeningException;
+import me.rares.model.exception.InvalidHeapAddressException;
 import me.rares.model.exception.InvalidTypeException;
+import me.rares.model.exception.InvalidVariableNameException;
 import me.rares.model.expression.Expression;
 import me.rares.model.state.ProgramState;
 import me.rares.model.type.Type;
@@ -23,7 +26,7 @@ public class OpenFileRead implements Statement {
     }
 
     @Override
-    public ProgramState execute(ProgramState state) {
+    public ProgramState execute(ProgramState state) throws Exception {
         // Evaluate the expression
         Value value = expression.evaluate(state.symbolTable(), state.heap());
 
@@ -37,7 +40,7 @@ public class OpenFileRead implements Statement {
 
         // Check if file is already open
         if (state.fileTable().isDefined(stringValue)) {
-            throw new RuntimeException("OpenFileRead: File '" + filename + "' is already open");
+            throw new FileOpeningException("OpenFileRead: File '" + filename + "' is already open");
         }
 
         // Try to open the file
@@ -48,7 +51,7 @@ public class OpenFileRead implements Statement {
             state.fileTable().put(stringValue, reader);
 
         } catch (FileNotFoundException e) {
-            throw new RuntimeException("OpenFileRead: File '" + filename + "' not found", e);
+            throw new InvalidVariableNameException("OpenFileRead: File '" + filename + "' not found");
         }
 
         return state;

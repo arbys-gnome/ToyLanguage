@@ -1,5 +1,7 @@
 package me.rares.model.expression;
 
+import me.rares.model.exception.InvalidHeapAddressException;
+import me.rares.model.exception.InvalidOperatorException;
 import me.rares.model.exception.InvalidTypeException;
 import me.rares.model.state.Heap;
 import me.rares.model.state.SymbolTable;
@@ -11,7 +13,7 @@ import me.rares.model.value.Value;
 public record ArithmeticExpression(Expression left, char operator, Expression right) implements Expression {
 
     @Override
-    public Value evaluate(SymbolTable symbolTable, Heap heap) {
+    public Value evaluate(SymbolTable symbolTable, Heap heap) throws Exception {
         Value resultLeft = left.evaluate(symbolTable, heap);
         Value resultRight = right.evaluate(symbolTable, heap);
 
@@ -30,14 +32,14 @@ public record ArithmeticExpression(Expression left, char operator, Expression ri
         return new IntValue(result);
     }
 
-    private int getResult(int leftValue, int rightValue, char operator) {
+    private int getResult(int leftValue, int rightValue, char operator) throws InvalidOperatorException {
         // TODO: replace char with enum
         return switch (operator) {
             case '+' -> leftValue + rightValue;
             case '-' -> leftValue - rightValue;
             case '*' -> leftValue * rightValue;
             case '/' -> leftValue / rightValue;
-            default -> throw new RuntimeException("ArithmeticExpression: invalid operator");
+            default -> throw new InvalidOperatorException("ArithmeticExpression: invalid operator");
         };
     }
 

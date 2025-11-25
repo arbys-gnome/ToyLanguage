@@ -163,4 +163,20 @@ public class ProgramState {
 
         heap.setContent(filteredHeapContent);
     }
+
+    public void garbageCollectUnsafe() {
+        List<Integer> rootAddresses =
+                StreamSupport.stream(symbolTable.entrySet().spliterator(), false)
+                        .map(Map.Entry::getValue)
+                        .filter(value -> value.type().isReference())
+                        .map(value -> ((RefValue) value).address())
+                        .toList();
+
+        Map<Integer, Value> filteredHeapContent =
+                StreamSupport.stream(heap.entrySet().spliterator(), false)
+                        .filter(entry -> rootAddresses.contains(entry.getKey()))
+                        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+
+        heap.setContent(filteredHeapContent);
+    }
 }

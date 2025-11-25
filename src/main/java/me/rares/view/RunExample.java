@@ -17,13 +17,7 @@ public class RunExample extends Command {
     }
 
     @Override
-    public void execute() {
-        try {
-            controller.execute();
-            System.out.println("\nProgram executed successfully!");
-        } catch (Exception e) {
-            System.err.println("\nError during program execution: " + e.getMessage());
-            e.printStackTrace();
-        }
+    public void execute() throws Exception {
+        controller.execute();
     }
 }

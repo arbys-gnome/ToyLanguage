@@ -57,8 +57,16 @@ public class CLI {
 
             try {
                 cmd.execute();
+                System.out.println("\nProgram executed successfully!");
             } catch (Exception e) {
-                System.out.println(e.getMessage());
+                // unwrap to root cause
+                Throwable root = e;
+                while (root.getCause() != null) root = root.getCause();
+
+                // print only once
+                System.out.println("\nProgram error:");
+                System.out.println("Error: " + root.getClass().getSimpleName() + " - " + root.getMessage());
+                if (scanner.hasNextLine()) scanner.nextLine();
             }
         }
     }

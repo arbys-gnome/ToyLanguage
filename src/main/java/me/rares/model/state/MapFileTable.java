@@ -1,5 +1,7 @@
 package me.rares.model.state;
 
+import me.rares.model.exception.FileOpeningException;
+import me.rares.model.exception.InvalidVariableNameException;
 import me.rares.model.value.StringValue;
 
 import java.io.BufferedReader;
@@ -20,9 +22,9 @@ public class MapFileTable implements FileTable {
     }
 
     @Override
-    public BufferedReader lookup(StringValue filename) throws RuntimeException {
+    public BufferedReader lookup(StringValue filename) throws FileOpeningException {
         if (!fileTable.containsKey(filename)) {
-            throw new RuntimeException("FileTable: File '" + filename.value() + "' is not open");
+            throw new FileOpeningException("FileTable: File '" + filename.value() + "' is not open");
         }
         return fileTable.get(filename);
     }
@@ -33,9 +35,9 @@ public class MapFileTable implements FileTable {
     }
 
     @Override
-    public void remove(StringValue filename) {
+    public void remove(StringValue filename) throws InvalidVariableNameException {
         if (!fileTable.containsKey(filename)) {
-            throw new RuntimeException("FileTable: Cannot remove file '" + filename.value() + "' - not in table");
+            throw new InvalidVariableNameException("FileTable: Cannot remove file '" + filename.value() + "' - not defined");
         }
         fileTable.remove(filename);
     }

@@ -1,6 +1,8 @@
 package me.rares.model.statement;
 
+import me.rares.model.exception.InvalidHeapAddressException;
 import me.rares.model.exception.InvalidTypeException;
+import me.rares.model.exception.InvalidVariableNameException;
 import me.rares.model.expression.Expression;
 import me.rares.model.state.ProgramState;
 import me.rares.model.type.Type;
@@ -22,7 +24,7 @@ public class CloseFileRead implements Statement {
     }
 
     @Override
-    public ProgramState execute(ProgramState state) {
+    public ProgramState execute(ProgramState state) throws Exception {
         // Evaluate the expression
         Value value = expression.evaluate(state.symbolTable(), state.heap());
 
@@ -36,7 +38,7 @@ public class CloseFileRead implements Statement {
 
         // Check if file is open in FileTable
         if (!state.fileTable().isDefined(stringValue)) {
-            throw new RuntimeException("CloseFileRead: File '" + filename + "' is not open");
+            throw new InvalidVariableNameException("CloseFileRead: File '" + filename + "' is not open");
         }
 
         BufferedReader reader = state.fileTable().lookup(stringValue);
@@ -49,7 +51,7 @@ public class CloseFileRead implements Statement {
             state.fileTable().remove(stringValue);
 
         } catch (IOException e) {
-            throw new RuntimeException("CloseFileRead: IO error closing file '" + filename + "'", e);
+            throw new Exception("CloseFileRead: IO error closing file '" + filename + "'", e);
         }
 
         return state;

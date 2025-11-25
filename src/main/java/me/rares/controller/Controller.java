@@ -17,7 +17,7 @@ public class Controller {
     }
 
     // complete execution
-    public void execute() {
+    public void execute() throws Exception {
         var state = repository.getCurrentProgramState();
 
         while (!state.isFinished()) {
@@ -28,8 +28,8 @@ public class Controller {
             // Log the new state
             try {
                 repository.logProgramState();
-            } catch (Exception ex) {
-                System.out.println(ex.getMessage());
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
             }
 
             // Collect the garbage
@@ -39,7 +39,9 @@ public class Controller {
             try {
                 statement.execute(state);
             } catch (InvalidVariableNameException | InvalidHeapAddressException | InvalidVariableTypeException e) {
-                throw new RuntimeException(e);
+                throw e;
+            } catch (Exception e) {
+                throw new Exception("Unexpected error during execution", e);
             }
         }
 
@@ -66,20 +68,18 @@ public class Controller {
             // Log the new state after each step
             try {
                 repository.logProgramState();
-            } catch (Exception ex) {
-                System.out.println(ex.getMessage());
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
             }
 
             // Collect the garbage
             state.garbageCollect();
 
             return state;
-        } catch (InvalidVariableNameException e) {
-            throw new Exception("Variable error during execution: " + e.getMessage());
+        } catch (InvalidVariableNameException | InvalidVariableTypeException | InvalidHeapAddressException e) {
+            throw e;
         } catch (Exception e) {
             throw new Exception("Unexpected error during execution: " + e.getMessage());
-        } catch (InvalidVariableTypeException | InvalidHeapAddressException e) {
-            throw new RuntimeException(e);
         }
     }
 }

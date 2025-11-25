@@ -1,6 +1,7 @@
 package me.rares.examples;
 
 import me.rares.model.expression.ArithmeticExpression;
+import me.rares.model.expression.ReadHeapExpression;
 import me.rares.model.expression.ValueExpression;
 import me.rares.model.expression.VariableExpression;
 import me.rares.model.statement.*;
@@ -113,8 +114,8 @@ public class Examples {
             new VariableDeclarationStatement(new RefType(new RefType(Type.INT)), "a"),
             new NewStatement("a", new VariableExpression("v")),
             new NewStatement("v", new ValueExpression(new IntValue(30))),
-            new PrintStatement(new VariableExpression("v"))
-        )
+            new PrintStatement(new ReadHeapExpression(new ReadHeapExpression(new VariableExpression("a"))))
+    )
     );
 }
 

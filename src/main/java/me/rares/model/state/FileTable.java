@@ -1,5 +1,7 @@
 package me.rares.model.state;
 
+import me.rares.model.exception.FileOpeningException;
+import me.rares.model.exception.InvalidVariableNameException;
 import me.rares.model.value.StringValue;
 
 import java.io.BufferedReader;
@@ -8,11 +10,11 @@ import java.util.Collection;
 public interface FileTable {
     void put(StringValue filename, BufferedReader reader);
 
-    BufferedReader lookup(StringValue filename);
+    BufferedReader lookup(StringValue filename) throws FileOpeningException;
 
     boolean isDefined(StringValue filename);
 
-    void remove(StringValue filename);
+    void remove(StringValue filename) throws InvalidVariableNameException;
 
     Collection<StringValue> getAllFilenames();
 
