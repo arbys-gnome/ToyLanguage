@@ -1,6 +1,6 @@
 package io.github.BogdanR6.model.state;
 
-import io.github.BogdanR6.model.exception.InvalidHeapAddressException;
+import io.github.BogdanR6.model.exception.UnallocatedAddressException;
 import io.github.BogdanR6.model.value.Value;
 
 import java.util.Map;
@@ -10,9 +10,9 @@ public interface Heap {
 
     int allocate(Value value);
 
-    Value read(Integer address) throws InvalidHeapAddressException;
+    Value read(Integer address) throws UnallocatedAddressException;
 
-    void write(Integer address, Value value) throws InvalidHeapAddressException;
+    void write(Integer address, Value value) throws UnallocatedAddressException;
 
     Iterable<Map.Entry<Integer, Value>> entrySet();
 

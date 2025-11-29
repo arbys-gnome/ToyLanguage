@@ -1,6 +1,6 @@
 package io.github.BogdanR6.controller;
 
-import io.github.BogdanR6.model.exception.InvalidHeapAddressException;
+import io.github.BogdanR6.model.exception.UnallocatedAddressException;
 import io.github.BogdanR6.model.exception.InvalidVariableNameException;
 import io.github.BogdanR6.model.exception.InvalidVariableTypeException;
 import io.github.BogdanR6.model.state.ProgramState;
@@ -38,7 +38,7 @@ public class Controller {
             Statement statement = state.nextStatement();
             try {
                 statement.execute(state);
-            } catch (InvalidVariableNameException | InvalidHeapAddressException | InvalidVariableTypeException e) {
+            } catch (InvalidVariableNameException | UnallocatedAddressException | InvalidVariableTypeException e) {
                 throw e;
             } catch (Exception e) {
                 throw new Exception("Unexpected error during execution", e);
@@ -76,7 +76,7 @@ public class Controller {
             state.garbageCollect();
 
             return state;
-        } catch (InvalidVariableNameException | InvalidVariableTypeException | InvalidHeapAddressException e) {
+        } catch (InvalidVariableNameException | InvalidVariableTypeException | UnallocatedAddressException e) {
             throw e;
         } catch (Exception e) {
             throw new Exception("Unexpected error during execution: " + e.getMessage());

@@ -12,7 +12,8 @@ public class RefValue implements Value {
         this.locationType = location;
     }
 
-    public int address() { return (int)this.value(); }
+    @Override
+    public Integer address() { return (int)this.value(); }
 
     @Override
     public Type type() { return new RefType(locationType); }

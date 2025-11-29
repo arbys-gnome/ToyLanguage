@@ -43,7 +43,7 @@ public class ReadFile implements Statement {
             throw new InvalidVariableNameException("ReadFile: Variable '" + variableName + "' is not defined");
         }
 
-        Value varValue = state.symbolTable().lookup(variableName);
+        Value varValue = state.symbolTable().getValue(variableName);
         if (!varValue.type().equals(Type.INT)) {
             throw new InvalidTypeException("ReadFile: Variable '" + variableName + "' must be of int type");
         }

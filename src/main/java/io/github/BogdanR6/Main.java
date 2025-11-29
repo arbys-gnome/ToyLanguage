@@ -6,13 +6,12 @@ import io.github.BogdanR6.model.state.*;
 import io.github.BogdanR6.view.CLI;
 import io.github.BogdanR6.view.ExitCommand;
 import io.github.BogdanR6.view.RunExample;
-import me.rares.model.expression.*;
-import me.rares.model.state.*;
-import me.rares.model.statement.*;
-import me.rares.model.value.*;
+import io.github.BogdanR6.model.expression.*;
+import io.github.BogdanR6.model.state.*;
+import io.github.BogdanR6.model.statement.*;
+import io.github.BogdanR6.model.value.*;
 import io.github.BogdanR6.repository.MemoryRepository;
 import io.github.BogdanR6.repository.Repository;
-import me.rares.view.*;
 
 
 /**

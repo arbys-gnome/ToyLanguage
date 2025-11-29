@@ -1,6 +1,6 @@
 package io.github.BogdanR6.model.state;
 
-import io.github.BogdanR6.model.exception.InvalidHeapAddressException;
+import io.github.BogdanR6.model.exception.UnallocatedAddressException;
 import io.github.BogdanR6.model.value.Value;
 
 import java.util.*;
@@ -23,18 +23,19 @@ public class MapHeap implements Heap {
     }
 
     @Override
-    public Value read(Integer address) throws InvalidHeapAddressException {
+    public Value read(Integer address) throws UnallocatedAddressException {
         if (!content.containsKey(address)) {
-            throw new InvalidHeapAddressException(address + " is not a valid address.");
+            throw new UnallocatedAddressException(address + " is not a valid address.");
         }
         return content.get(address);
     }
 
     @Override
-    public void write(Integer address, Value value) throws InvalidHeapAddressException {
-        if (!content.containsKey(address)) {
-            throw new InvalidHeapAddressException(address + " is not a valid address.");
+    public void write(Integer address, Value value) throws UnallocatedAddressException {
+        if (!isAllocated(address)) {
+            throw new UnallocatedAddressException(address.toString());
         }
+
         content.replace(address, value);
     }
 
