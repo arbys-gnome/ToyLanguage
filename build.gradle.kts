@@ -1,6 +1,6 @@
 plugins {
-    java
-    "java-test-suite"
+    id("java")
+    id("groovy")
 }
 
 group = "io.github.BogdanR6"
@@ -10,16 +10,36 @@ repositories {
     mavenCentral()
 }
 
+val groovyVersion = "5.0.0"
+val spockVersion = "2.4-M7-groovy-5.0"
+val junitPlatformVersion = "1.10.2"
+val mockitoVersion = "5.20.0"
+
+// Create a configuration for the Mockito agent
+val mockitoAgent = configurations.create("mockitoAgent")
+
 dependencies {
-    val junitVersion = "6.0.0"
-    val mockitoVersion = "5.20.0"
-    testImplementation(platform("org.junit:junit-bom:${junitVersion}"))
-    testImplementation("org.junit.jupiter:junit-jupiter")
-    testImplementation("org.mockito:mockito-core:${mockitoVersion}")
-    testImplementation("org.mockito:mockito-junit-jupiter:${mockitoVersion}")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testImplementation("org.spockframework:spock-core:$spockVersion")
+    testImplementation("org.apache.groovy:groovy:$groovyVersion")
+    testImplementation("org.mockito:mockito-core:$mockitoVersion")
+    mockitoAgent("org.mockito:mockito-core:$mockitoVersion") {
+        isTransitive = false
+    }
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher:$junitPlatformVersion")
+}
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(25))
+    }
 }
 
 tasks.test {
-    useJUnitPlatform()
+    useJUnitPlatform() // for spock
+
+    // Attach Mockito as a javaagent
+    doFirst {
+        val agentJar = mockitoAgent.singleFile
+        jvmArgs("-javaagent:$agentJar")
+    }
 }
