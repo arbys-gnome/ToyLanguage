@@ -6,7 +6,6 @@ import io.github.arbys_gnome.model.type.Type;
 import io.github.arbys_gnome.model.value.Value;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public interface Expression {
     Value evaluate(SymbolTable symbolTable, Heap heap) throws Exception;

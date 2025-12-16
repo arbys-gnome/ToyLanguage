@@ -7,6 +7,8 @@ import io.github.arbys_gnome.model.type.Type;
 import io.github.arbys_gnome.model.value.BoolValue;
 import io.github.arbys_gnome.model.value.Value;
 
+import java.util.HashMap;
+
 public record WhileStatement(Expression condition, Statement body) implements Statement {
     @Override
     public ProgramState execute(ProgramState state) throws Exception {
@@ -20,6 +22,22 @@ public record WhileStatement(Expression condition, Statement body) implements St
             state.executionStack().push(body);
         }
         return state;
+    }
+
+    @Override
+    public HashMap<String, Type> typecheck(HashMap<String, Type> typeEnv) throws InvalidTypeException {
+        Type conditionType = null;
+        try {
+            conditionType = condition.typecheck(typeEnv);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        if (conditionType.equals(Type.BOOL)) {
+            body.typecheck(new HashMap<>(typeEnv));
+            return typeEnv;
+        } else {
+            throw new InvalidTypeException("The condition of WHILE has not the type bool");
+        }
     }
 
     @Override

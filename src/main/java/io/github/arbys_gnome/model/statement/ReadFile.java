@@ -13,6 +13,7 @@ import io.github.arbys_gnome.model.value.Value;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.HashMap;
 
 /**
  * Statement: readFile(exp, var_name)
@@ -92,6 +93,29 @@ public class ReadFile implements Statement {
         }
 
         return state;
+    }
+
+    @Override
+    public HashMap<String, Type> typecheck(HashMap<String, Type> typeEnv) throws InvalidTypeException {
+        if (!typeEnv.containsKey(variableName)) {
+            throw new InvalidTypeException("Variable " + variableName + " is not defined");
+        }
+        Type varType = typeEnv.get(variableName);
+        if (!varType.equals(Type.INT)) {
+            throw new InvalidTypeException("ReadFile: Variable must be of type int");
+        }
+
+        Type typexp = null;
+        try {
+            typexp = expression.typecheck(typeEnv);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        if (!typexp.equals(Type.STRING)) {
+            throw new InvalidTypeException("ReadFile: Expression must be of type string");
+        }
+
+        return typeEnv;
     }
 
     @Override

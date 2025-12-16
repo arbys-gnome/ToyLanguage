@@ -5,8 +5,11 @@ import io.github.arbys_gnome.model.exception.InvalidVariableNameException;
 import io.github.arbys_gnome.model.expression.Expression;
 import io.github.arbys_gnome.model.state.ProgramState;
 import io.github.arbys_gnome.model.type.RefType;
+import io.github.arbys_gnome.model.type.Type;
 import io.github.arbys_gnome.model.value.RefValue;
 import io.github.arbys_gnome.model.value.Value;
+
+import java.util.HashMap;
 
 public record NewStatement(String var, Expression expression) implements Statement {
     @Override
@@ -29,6 +32,26 @@ public record NewStatement(String var, Expression expression) implements Stateme
         state.symbolTable().setValue(var, new RefValue(address, value.type()));
 
         return state;
+    }
+
+    @Override
+    public HashMap<String, Type> typecheck(HashMap<String, Type> typeEnv) throws InvalidTypeException {
+        if (!typeEnv.containsKey(var)) {
+            throw new InvalidTypeException("Variable " + var + " is not defined");
+        }
+        Type varType = typeEnv.get(var);
+        Type expType = null;
+        try {
+            expType = expression.typecheck(typeEnv);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        if (varType.equals(new RefType(expType))) {
+            return typeEnv;
+        } else {
+            throw new InvalidTypeException("NewStatement: right hand side and left hand side have different types");
+        }
     }
 
     @Override

@@ -1,7 +1,10 @@
 package io.github.arbys_gnome.model.statement;
 
+import io.github.arbys_gnome.model.exception.InvalidTypeException;
 import io.github.arbys_gnome.model.state.ProgramState;
+import io.github.arbys_gnome.model.type.Type;
 
+import java.util.HashMap;
 import java.util.List;
 
 public record BlockStatement(List<Statement> statements) implements Statement {
@@ -14,6 +17,15 @@ public record BlockStatement(List<Statement> statements) implements Statement {
         }
 
         return state;
+    }
+
+    @Override
+    public HashMap<String, Type> typecheck(HashMap<String, Type> typeEnv) throws InvalidTypeException {
+        typeEnv = new HashMap<>();
+        for (Statement statement : statements) {
+            typeEnv = statement.typecheck(typeEnv);
+        }
+        return typeEnv;
     }
 
     @Override

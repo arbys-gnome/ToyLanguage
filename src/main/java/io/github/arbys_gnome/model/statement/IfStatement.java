@@ -7,6 +7,8 @@ import io.github.arbys_gnome.model.type.Type;
 import io.github.arbys_gnome.model.value.BoolValue;
 import io.github.arbys_gnome.model.value.Value;
 
+import java.util.HashMap;
+
 public record IfStatement(Expression condition, Statement thenStatement, Statement elseStatement) implements Statement {
     @Override
     public ProgramState execute(ProgramState state) throws Exception {
@@ -22,6 +24,23 @@ public record IfStatement(Expression condition, Statement thenStatement, Stateme
             state.executionStack().push(elseStatement);
         }
         return null;
+    }
+
+    @Override
+    public HashMap<String, Type> typecheck(HashMap<String, Type> typeEnv) throws InvalidTypeException {
+        Type expType = null;
+        try {
+            expType = condition.typecheck(typeEnv);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        if (expType.equals(Type.BOOL)) {
+            thenStatement.typecheck(new HashMap<>(typeEnv));
+            elseStatement.typecheck(new HashMap<>(typeEnv));
+            return typeEnv;
+        } else {
+            throw new InvalidTypeException("IfStatement: Condition must evaluate to bool type.");
+        }
     }
 
     @Override

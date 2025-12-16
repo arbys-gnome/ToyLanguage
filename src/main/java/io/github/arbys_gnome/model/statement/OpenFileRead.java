@@ -12,6 +12,7 @@ import io.github.arbys_gnome.model.value.Value;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.HashMap;
 
 /**
  * Statement: openRFile(exp)
@@ -54,6 +55,21 @@ public class OpenFileRead implements Statement {
         }
 
         return state;
+    }
+
+    @Override
+    public HashMap<String, Type> typecheck(HashMap<String, Type> typeEnv) throws InvalidTypeException {
+        Type expType = null;
+        try {
+            expType = expression.typecheck(typeEnv);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        if (expType.equals(Type.STRING)) {
+            return typeEnv;
+        } else {
+            throw new InvalidTypeException("OpenFileRead: Expression must be of type string");
+        }
     }
 
     @Override

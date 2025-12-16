@@ -10,6 +10,7 @@ import io.github.arbys_gnome.model.value.Value;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.HashMap;
 
 /**
  * Statement: closeRFile(exp)
@@ -54,6 +55,21 @@ public class CloseFileRead implements Statement {
         }
 
         return state;
+    }
+
+    @Override
+    public HashMap<String, Type> typecheck(HashMap<String, Type> typeEnv) throws InvalidTypeException {
+        Type expType = null;
+        try {
+            expType = expression.typecheck(typeEnv);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        if (expType.equals(Type.STRING)) {
+            return typeEnv;
+        } else {
+            throw new InvalidTypeException("CloseFileRead: Expression must be of type string");
+        }
     }
 
     @Override

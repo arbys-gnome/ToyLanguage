@@ -14,7 +14,7 @@ public record ValueExpression(Value value) implements Expression {
     }
 
     @Override
-    public Type typecheck(HashMap<String, Type> typeEnv) {
+    public Type typecheck(HashMap<String, Type> typeEnv) throws Exception {
         return value.type();
     }
 
