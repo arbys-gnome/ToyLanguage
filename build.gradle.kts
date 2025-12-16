@@ -22,10 +22,9 @@ kotlin {
 }
 
 val kotestVersion = "5.9.1"
-val groovyVersion = "5.0.0"
-val spockVersion = "2.4-M7-groovy-5.0"
 val junitPlatformVersion = "1.10.2"
 val mockkVersion = "1.13.10"
+val log4jVersion = "2.25.2"
 
 dependencies {
     // Kotest framework
@@ -37,7 +36,9 @@ dependencies {
 
     testRuntimeOnly("org.junit.platform:junit-platform-launcher:$junitPlatformVersion")
     implementation(kotlin("stdlib-jdk8"))
-}
+
+    implementation("org.apache.logging.log4j:log4j-api:$log4jVersion")
+    implementation("org.apache.logging.log4j:log4j-core:${log4jVersion}")}
 
 tasks.test {
     systemProperty("kotest.framework.classpath.scanning.config.disable", "false")
