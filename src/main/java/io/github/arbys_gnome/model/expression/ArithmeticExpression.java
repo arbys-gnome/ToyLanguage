@@ -2,6 +2,7 @@ package io.github.arbys_gnome.model.expression;
 
 import io.github.arbys_gnome.model.exception.InvalidOperatorException;
 import io.github.arbys_gnome.model.exception.InvalidTypeException;
+import io.github.arbys_gnome.model.operators.ArithmeticOperator;
 import io.github.arbys_gnome.model.state.Heap;
 import io.github.arbys_gnome.model.state.SymbolTable;
 import io.github.arbys_gnome.model.type.Type;
@@ -10,7 +11,7 @@ import io.github.arbys_gnome.model.value.Value;
 
 import java.util.HashMap;
 
-public record ArithmeticExpression(Expression left, char operator, Expression right) implements Expression {
+public record ArithmeticExpression(Expression left, ArithmeticOperator operator, Expression right) implements Expression {
 
     @Override
     public Value evaluate(SymbolTable symbolTable, Heap heap) throws Exception {
@@ -46,19 +47,17 @@ public record ArithmeticExpression(Expression left, char operator, Expression ri
         return Type.INT;
     }
 
-    private int getResult(int leftValue, int rightValue, char operator) throws InvalidOperatorException {
-        // TODO: replace char with enum
+    private int getResult(int leftValue, int rightValue, ArithmeticOperator operator) throws InvalidOperatorException {
         return switch (operator) {
-            case '+' -> leftValue + rightValue;
-            case '-' -> leftValue - rightValue;
-            case '*' -> leftValue * rightValue;
-            case '/' -> leftValue / rightValue;
-            default -> throw new InvalidOperatorException("ArithmeticExpression: invalid operator");
+            case ADD -> leftValue + rightValue;
+            case SUBTRACT -> leftValue - rightValue;
+            case MULTIPLY -> leftValue * rightValue;
+            case DIVIDE -> leftValue / rightValue;
         };
     }
 
     @Override
     public String toString() {
-        return left.toString() + " " + operator + " " + right.toString();
+        return left.toString() + " " + operator.toString() + " " + right.toString();
     }
 }

@@ -5,7 +5,6 @@ import io.github.arbys_gnome.model.state.Heap
 import io.github.arbys_gnome.model.value.IntValue
 import io.github.arbys_gnome.model.state.SymbolTable
 import io.github.arbys_gnome.model.exception.UndefinedVariableException
-import io.github.arbys_gnome.model.type.RefType
 
 import io.mockk.mockk
 import io.mockk.every

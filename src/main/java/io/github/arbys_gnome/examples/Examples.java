@@ -4,6 +4,7 @@ import io.github.arbys_gnome.model.expression.ArithmeticExpression;
 import io.github.arbys_gnome.model.expression.ReadHeapExpression;
 import io.github.arbys_gnome.model.expression.ValueExpression;
 import io.github.arbys_gnome.model.expression.VariableExpression;
+import io.github.arbys_gnome.model.operators.ArithmeticOperator;
 import io.github.arbys_gnome.model.statement.*;
 import io.github.arbys_gnome.model.type.RefType;
 import io.github.arbys_gnome.model.type.Type;
@@ -32,10 +33,10 @@ public class Examples {
                             new AssignmentStatement("a",
                                     new ArithmeticExpression(
                                             new ValueExpression(new IntValue(2)),
-                                            '+',
+                                            ArithmeticOperator.ADD,
                                             new ArithmeticExpression(
                                                     new ValueExpression(new IntValue(3)),
-                                                    '*',
+                                                    ArithmeticOperator.MULTIPLY,
                                                     new ValueExpression(new IntValue(5))
                                             )
                                     )
@@ -44,7 +45,7 @@ public class Examples {
                                     new AssignmentStatement("b",
                                             new ArithmeticExpression(
                                                     new VariableExpression("a"),
-                                                    '+',
+                                                    ArithmeticOperator.ADD,
                                                     new ValueExpression(new IntValue(1))
                                             )
                                     ),
