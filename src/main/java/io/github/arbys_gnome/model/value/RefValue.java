@@ -16,6 +16,11 @@ public class RefValue implements Value {
     public Integer address() { return (int)this.value(); }
 
     @Override
+    public Value deepCopy() {
+        return new RefValue(address, locationType);
+    }
+
+    @Override
     public Type type() { return new RefType(locationType); }
 
     @Override

@@ -57,4 +57,5 @@ public abstract class SymbolTable {
     public abstract Iterable<Map.Entry<String, Value>> entrySet();
 
     public abstract void clear();
+    public abstract SymbolTable deepCopy();
 }

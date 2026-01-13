@@ -69,7 +69,7 @@ public class Main {
 
                 // Create repository and controller
                 Repository repo = new MemoryRepository(programState, example.logFile);
-                Controller controller = new Controller(repo, false);
+                Controller controller = new Controller(repo);
 
                 // Store the valid example and its controller
                 validExamples.add(example);

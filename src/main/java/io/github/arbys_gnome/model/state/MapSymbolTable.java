@@ -1,5 +1,6 @@
 package io.github.arbys_gnome.model.state;
 
+import io.github.arbys_gnome.model.exception.UndefinedVariableException;
 import io.github.arbys_gnome.model.type.Type;
 import io.github.arbys_gnome.model.value.Value;
 
@@ -51,5 +52,19 @@ public class MapSymbolTable extends SymbolTable {
     @Override
     public void clear() {
         content.clear();
+    }
+
+    @Override
+    public SymbolTable deepCopy() {
+        MapSymbolTable copy = new MapSymbolTable();
+        for (var entry : content.entrySet()) {
+            try {
+                copy.setValue(entry.getKey(), entry.getValue().deepCopy());
+            } catch (UndefinedVariableException e) {
+                // TODO: better handle this
+                throw new RuntimeException(e);
+            }
+        }
+        return copy;
     }
 }

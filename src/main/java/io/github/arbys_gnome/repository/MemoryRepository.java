@@ -12,9 +12,9 @@ import java.util.List;
 import java.util.Map;
 
 public class MemoryRepository implements Repository {
-    private final List<ProgramState> programStates;
+    private List<ProgramState> programStates;
     private final String logFilePath;
-    private final int currentProgramIndex;
+    private int currentProgramIndex;
 
     public MemoryRepository(ProgramState state, String logFilePath) {
         this.programStates = new java.util.ArrayList<>();
@@ -24,14 +24,17 @@ public class MemoryRepository implements Repository {
     }
 
     @Override
-    public ProgramState getCurrentProgramState() {
-        return programStates.get(currentProgramIndex);
+    public List<ProgramState> getPrograms() {
+        return programStates;
     }
 
     @Override
-    public void logProgramState() throws Exception {
-        ProgramState state = getCurrentProgramState();
+    public void setPrograms(List<ProgramState> newList) {
+        programStates = newList;
+    }
 
+    @Override
+    public void logProgramState(ProgramState state) throws Exception {
         try (PrintWriter logFile = new PrintWriter(new BufferedWriter(new FileWriter(logFilePath, true)))) {
 
             logFile.println("ExeStack:");

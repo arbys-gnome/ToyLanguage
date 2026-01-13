@@ -14,5 +14,10 @@ public class BoolValue implements Value {
     public Boolean value() { return value; }
 
     @Override
+    public Value deepCopy() {
+        return new BoolValue(value);
+    }
+
+    @Override
     public String toString() { return String.valueOf(value); }
 }

@@ -39,6 +39,11 @@ public class ListExecutionStack implements ExecutionStack {
     }
 
     @Override
+    public ExecutionStack createEmpty() {
+        return new ListExecutionStack();
+    }
+
+    @Override
     public void clear() {
         statements.clear();
     }

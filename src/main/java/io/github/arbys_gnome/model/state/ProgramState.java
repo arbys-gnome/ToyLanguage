@@ -1,5 +1,8 @@
 package io.github.arbys_gnome.model.state;
 
+import io.github.arbys_gnome.model.exception.InvalidVariableNameException;
+import io.github.arbys_gnome.model.exception.InvalidVariableTypeException;
+import io.github.arbys_gnome.model.exception.UnallocatedAddressException;
 import io.github.arbys_gnome.model.statement.Statement;
 import io.github.arbys_gnome.model.value.RefValue;
 import io.github.arbys_gnome.model.value.Value;
@@ -9,12 +12,18 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 public class ProgramState {
+    private static Integer lastId = 0;
+    private final Integer id;
     private ExecutionStack executionStack;
     private SymbolTable symbolTable;
     private FileTable fileTable;
     private Heap heap;
     private Output output;
     private Statement originalStatement;
+
+    private static synchronized int getNextId() {
+        return ++lastId;
+    }
 
     public ProgramState(ExecutionStack executionStack,
                         SymbolTable symbolTable,
@@ -23,6 +32,7 @@ public class ProgramState {
                         Output output,
                         Statement statement
     ) {
+        this.id = getNextId();
         this.executionStack = executionStack;
         this.symbolTable = symbolTable;
         this.fileTable = fileTable;
@@ -106,6 +116,8 @@ public class ProgramState {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
+        sb.append("Program ").append(id).append(":\n");
+
         sb.append(executionStack.toString()).append("\n");
 
         sb.append(symbolTable.toString()).append("\n");
@@ -178,5 +190,33 @@ public class ProgramState {
                         .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
         heap.setContent(filteredHeapContent);
+    }
+
+    /**
+     * Executes a single step of the program.
+     * Retrieves the next statement from the execution stack
+     * and executes it.
+     */
+    public ProgramState oneStep() throws Exception {
+        if (this.isFinished()) {
+            throw new Exception("Program execution stack is empty.");
+        }
+
+        // Get the next statement from the stack
+        Statement currentStatement = nextStatement();
+
+        try {
+            // Execute the statement and update the program state
+            currentStatement.execute(this);
+
+            // Collect the garbage
+            garbageCollect();
+
+            return this;
+        } catch (InvalidVariableNameException | InvalidVariableTypeException | UnallocatedAddressException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new Exception("Unexpected error during execution: " + e.getMessage());
+        }
     }
 }

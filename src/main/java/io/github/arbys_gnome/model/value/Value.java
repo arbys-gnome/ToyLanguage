@@ -16,4 +16,6 @@ public interface Value {
         }
         return null;
     }
+
+    Value deepCopy();
 }

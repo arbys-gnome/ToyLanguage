@@ -8,5 +8,7 @@ public interface ExecutionStack extends Iterable<Statement> {
     boolean isEmpty();
     String toString();
 
+    ExecutionStack createEmpty();
+
     void clear();
 }

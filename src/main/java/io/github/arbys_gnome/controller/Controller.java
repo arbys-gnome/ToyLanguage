@@ -1,85 +1,86 @@
 package io.github.arbys_gnome.controller;
 
-import io.github.arbys_gnome.model.exception.UnallocatedAddressException;
-import io.github.arbys_gnome.model.exception.InvalidVariableNameException;
-import io.github.arbys_gnome.model.exception.InvalidVariableTypeException;
 import io.github.arbys_gnome.model.state.ProgramState;
-import io.github.arbys_gnome.model.statement.Statement;
 import io.github.arbys_gnome.repository.Repository;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 public class Controller {
     private final Repository repository;
-    private boolean displayFlag = false;
+    private ExecutorService executor;
 
-    public Controller(Repository repo, boolean displayFlag) {
+    public Controller(Repository repo) {
         repository = repo;
-        this.displayFlag = displayFlag;
     }
 
-    // complete execution
-    public void execute() throws Exception {
-        var state = repository.getCurrentProgramState();
-
-        while (!state.isFinished()) {
-            if (displayFlag) {
-                // IO.println(state);
-            }
-
-            // Log the new state
-            try {
-                repository.logProgramState();
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-
-            // Collect the garbage
-            state.garbageCollect();
-
-            Statement statement = state.nextStatement();
-            try {
-                statement.execute(state);
-            } catch (InvalidVariableNameException | UnallocatedAddressException | InvalidVariableTypeException e) {
-                throw e;
-            } catch (Exception e) {
-                throw new Exception("Unexpected error during execution", e);
-            }
-        }
-
-        // IO.println(state);
+    List<ProgramState> removeCompletedPrograms(List<ProgramState> programs) {
+        return programs.stream().filter(p -> !p.isFinished()).toList();
     }
 
-    /**
-     * Executes a single step of the program.
-     * Retrieves the next statement from the execution stack,
-     * executes it, and logs the resulting program state.
-     */
-    public ProgramState oneStep(ProgramState state) throws Exception {
-        if (state.executionStack().isEmpty()) {
-            throw new Exception("Program execution stack is empty.");
+    public void allStep() {
+        executor = Executors.newFixedThreadPool(2);
+        //remove the completed programs
+        List<ProgramState> programs = removeCompletedPrograms(repository.getPrograms());
+        while (!programs.isEmpty()) {
+            // TODO: add garbage collection
+            oneStepForAllPrograms(programs);
+            //remove the completed programs
+            programs = removeCompletedPrograms(repository.getPrograms());
         }
+        executor.shutdownNow();
+        repository.setPrograms(programs);
+    }
 
-        // Get the next statement from the stack
-        Statement currentStatement = state.nextStatement();
+    public void oneStepForAllPrograms(List<ProgramState> programs) {
+        programs.forEach(prg -> {
+            try {
+                repository.logProgramState(prg);
+            } catch (Exception e) {
+                System.err.println("Logging error: " + e.getMessage());
+            }
+        });
+
+        List<Callable<ProgramState>> callList = programs.stream()
+                .map((ProgramState p) -> (Callable<ProgramState>) (p::oneStep))
+                .toList();
 
         try {
-            // Execute the statement and update the program state
-            currentStatement.execute(state);
+            // Execute concurrently
+            List<ProgramState> newPrgList = executor.invokeAll(callList).stream()
+                    .map(future -> {
+                        try {
+                            return future.get();
+                        } catch (InterruptedException | ExecutionException e) {
+                            // statement execution exception
+                            return null;
+                        }
+                    })
+                    .filter(Objects::nonNull)
+                    .toList();
 
-            // Log the new state after each step
-            try {
-                repository.logProgramState();
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
+            // 4. Add new threads
+            programs.addAll(newPrgList);
 
-            // Collect the garbage
-            state.garbageCollect();
+            // 5. Log after execution
+            programs.forEach(prg -> {
+                try {
+                    repository.logProgramState(prg);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            });
 
-            return state;
-        } catch (InvalidVariableNameException | InvalidVariableTypeException | UnallocatedAddressException e) {
-            throw e;
-        } catch (Exception e) {
-            throw new Exception("Unexpected error during execution: " + e.getMessage());
+            // 6. Save programs in repository
+            repository.setPrograms(programs);
+
+        } catch (InterruptedException e) {
+            throw new RuntimeException("Execution interrupted");
         }
     }
 }

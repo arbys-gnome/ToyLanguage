@@ -18,6 +18,6 @@ public class RunExample extends Command {
 
     @Override
     public void execute() throws Exception {
-        controller.execute();
+        controller.allStep();
     }
 }
